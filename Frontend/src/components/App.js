@@ -16,7 +16,7 @@ function App() {
       {!auth.isLoggedIn ? (
         <Connexion />
       ) : (
-        <Register />
+    <Register />
       )}
     </div>
   );

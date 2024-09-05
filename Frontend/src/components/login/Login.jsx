@@ -1,6 +1,6 @@
 import "./Login.css";
 import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
+import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 export default function Login() {
     const auth = useContext(AuthContext);
