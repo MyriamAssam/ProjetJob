@@ -9,10 +9,8 @@ function App() {
 
   return (
     <div>
-      { }
       <NavLinks />
 
-      { }
       {!auth.isLoggedIn ? (
         <Connexion />
       ) : (
