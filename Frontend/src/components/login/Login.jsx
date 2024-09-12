@@ -2,7 +2,10 @@ import "./Login.css";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
-export default function Login() {
+
+
+export default function Login(props) {
+
     const auth = useContext(AuthContext);
     function authSubmitHandler(event) {
         event.preventDefault();
@@ -17,34 +20,69 @@ export default function Login() {
         console.log(auth);
     }
     return (
-        <form onSubmit={authSubmitHandler}>
-            <h2>Login</h2>
+        <div>
+            {props.type == "Candidat" ? (
+            <form onSubmit={authSubmitHandler}>
+                <h2>Connexion en tant que Candidat</h2>
 
-            <div className="controles-row">
-                <div className="controles no-margin">
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="email" name="email" required />
-                </div>
+                <div className="controles-row">
+                    <div className="controles no-margin">
+                        <label htmlFor="email">Email</label>
+                        <input id="email" type="email" name="email" required />
+                    </div>
 
-                <div className="controles no-margin">
-                    <label htmlFor="password">Password</label>
-                    <input id="password" type="password" name="password" required />
+                    <div className="controles no-margin">
+                        <label htmlFor="password">Password</label>
+                        <input id="password" type="password" name="password" required />
+                    </div>
                 </div>
-            </div>
-            <div></div>
-            <p className="form-actions">
-                <p>
-                    <Link to="/inscription">Inscription</Link>
-                    <NavLink />
+                <div></div>
+                <p className="form-actions">
+                    <p>
+                        <Link to="/inscription">Inscription</Link>
+                        <NavLink />
+                    </p>
+
+                    <button className="boutonLog boutonLog-flat" type="reset">
+                        Reset
+                    </button>
+                    <button className="boutonLog" type="submit">
+                        Login
+                    </button>
                 </p>
+            </form>
+            ) : (
+                <form onSubmit={authSubmitHandler}>
+                <h2>Connexion en tant qu'employeur</h2>
 
-                <button className="boutonLog boutonLog-flat" type="reset">
-                    Reset
-                </button>
-                <button className="boutonLog" type="submit">
-                    Login
-                </button>
-            </p>
-        </form>
+                <div className="controles-row">
+                    <div className="controles no-margin">
+                        <label htmlFor="email">Email</label>
+                        <input id="email" type="email" name="email" required />
+                    </div>
+
+                    <div className="controles no-margin">
+                        <label htmlFor="password">Password</label>
+                        <input id="password" type="password" name="password" required />
+                    </div>
+                </div>
+                <div></div>
+                <p className="form-actions">
+                    <p>
+                        <Link to="/inscription">Inscription</Link>
+                        <NavLink />
+                    </p>
+
+                    <button className="boutonLog boutonLog-flat" type="reset">
+                        Reset
+                    </button>
+                    <button className="boutonLog" type="submit">
+                        Login
+                    </button>
+                </p>
+            </form>
+            )}
+        </div>
+
     );
 }
