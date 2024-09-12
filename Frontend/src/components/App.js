@@ -1,23 +1,37 @@
 import Register from '../containers/Register';
 import Connexion from '../containers/Connexion';
-import { AuthContext } from './context/AuthContext';
-import NavLinks from './navigation/NavLinks';
-import { useContext } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RootLayout from "../containers/Roots";
 
-function App() {
-  const auth = useContext(AuthContext);
+const routes = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout/>,
+    children: [
+      { path: "/connexion", element: <Connexion />},
+      { path: "/register", element: <Register />},
+    ],
+  },
+]);
 
-  return (
-    <div>
-      <NavLinks />
 
-      {!auth.isLoggedIn ? (
-        <Connexion />
-      ) : (
-    <Register />
-      )}
-    </div>
-  );
-}
+const App = () => {
+  const { user } = useAuthContext();
+
+  if (user) {
+    return (
+      <RouterProvider router={routes}/>
+    );
+  } else {
+    return (
+      <div>
+  
+      <RouterProvider router={routes}/>
+      </div>
+    );
+  }
+  
+};
 
 export default App;

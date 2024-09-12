@@ -13,6 +13,8 @@ export default function Login() {
         console.log("Password: ", data.password);
         event.target.reset();
         auth.login();
+
+        console.log(auth);
     }
     return (
         <form onSubmit={authSubmitHandler}>

@@ -1,10 +1,9 @@
 import './Register.css';
 import Inscription from '../components/inscription/Inscription';
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function Register() {
     const [ typeCompte, setTypeCompte ] = useState("Candidat");
-
 
     return (
         <div>

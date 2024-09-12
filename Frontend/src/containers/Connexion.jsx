@@ -1,5 +1,5 @@
+import Login from "../components/login/Login";
+
 export default function Connexion() {
-    return (
-        <p>page de connexion</p>
-    );
+    return <Login/>;
 };
