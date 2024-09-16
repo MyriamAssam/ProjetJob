@@ -3,7 +3,7 @@ import Inscription from '../components/inscription/Inscription';
 import { useState } from 'react';
 
 export default function Register() {
-    const [ typeCompte, setTypeCompte ] = useState("Candidat");
+    const [typeCompte, setTypeCompte] = useState("Candidat");
 
     return (
         <div>
@@ -11,11 +11,11 @@ export default function Register() {
                 <a onClick={() => setTypeCompte("Candidat")}>Candidat</a>
                 <a onClick={() => setTypeCompte("Employeur")}>Employeur</a>
             </div>
-            
 
-            <Inscription type={typeCompte}/>
+
+            <Inscription type={typeCompte} />
         </div>
-        
+
     );
-    
+
 }

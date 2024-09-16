@@ -1,88 +1,41 @@
-import "./Login.css";
-import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+export default function Login({ type }) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-export default function Login(props) {
+    const handleLogin = (e) => {
+        e.preventDefault();
 
-    const auth = useContext(AuthContext);
-    function authSubmitHandler(event) {
-        event.preventDefault();
-        const inputs = new FormData(event.target);
-        const enteredEmail = inputs.get("email");
-        const data = Object.fromEntries(inputs.entries());
-        console.log("Email: ", data.email);
-        console.log("Password: ", data.password);
-        event.target.reset();
-        auth.login();
+        // Logique d'authentification (à implémenter)
+        const isAuthenticated = true; // Remplacer par la vraie logique d'authentification
 
-        console.log(auth);
-    }
+        if (isAuthenticated) {
+            if (type === "Candidat") {
+                // Redirige vers la page des offres si l'utilisateur est un candidat
+                navigate("/offres");
+            } else if (type === "Employeur") {
+                // Redirige vers la page d'ajout d'offre si l'utilisateur est un employeur
+                navigate("/add-offer");
+            }
+        } else {
+            console.log("Échec de la connexion");
+        }
+    };
+
     return (
-        <div>
-            {props.type == "Candidat" ? (
-            <form onSubmit={authSubmitHandler}>
-                <h2>Connexion en tant que Candidat</h2>
-
-                <div className="controles-row">
-                    <div className="controles no-margin">
-                        <label htmlFor="email">Email</label>
-                        <input id="email" type="email" name="email" required />
-                    </div>
-
-                    <div className="controles no-margin">
-                        <label htmlFor="password">Password</label>
-                        <input id="password" type="password" name="password" required />
-                    </div>
-                </div>
-                <div></div>
-                <p className="form-actions">
-                    <p>
-                        <Link to="/inscription">Inscription</Link>
-                        <NavLink />
-                    </p>
-
-                    <button className="boutonLog boutonLog-flat" type="reset">
-                        Reset
-                    </button>
-                    <button className="boutonLog" type="submit">
-                        Login
-                    </button>
-                </p>
-            </form>
-            ) : (
-                <form onSubmit={authSubmitHandler}>
-                <h2>Connexion en tant qu'employeur</h2>
-
-                <div className="controles-row">
-                    <div className="controles no-margin">
-                        <label htmlFor="email">Email</label>
-                        <input id="email" type="email" name="email" required />
-                    </div>
-
-                    <div className="controles no-margin">
-                        <label htmlFor="password">Password</label>
-                        <input id="password" type="password" name="password" required />
-                    </div>
-                </div>
-                <div></div>
-                <p className="form-actions">
-                    <p>
-                        <Link to="/inscription">Inscription</Link>
-                        <NavLink />
-                    </p>
-
-                    <button className="boutonLog boutonLog-flat" type="reset">
-                        Reset
-                    </button>
-                    <button className="boutonLog" type="submit">
-                        Login
-                    </button>
-                </p>
-            </form>
-            )}
-        </div>
-
+        <form onSubmit={handleLogin}>
+            <div>
+                <label>Email :</label>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+            <div>
+                <label>Mot de passe :</label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+            <button type="submit">Login</button>
+        </form>
     );
 }
