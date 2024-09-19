@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import AddOffer from "../containers/AddOffer";
-import EntrepOffers from "../containers/EntrepriseItems";
+import EntrepOffers from "../containers/EntrepriseEmplois";
 import Register from "../containers/Register";
 import Connexion from "../containers/Connexion";
 import { useAuthContext } from "../hooks/useAuthContext";
