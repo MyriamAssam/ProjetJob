@@ -47,8 +47,8 @@ export default function Inscription(props) {
         e.preventDefault();
 
 
-        // Logique d'inscription (à implémenter)
-        const isRegistered = true; // Remplacer par la vraie logique d'inscription
+    // Logique d'inscription (à implémenter)
+    const isRegistered = true; // Remplacer par la vraie logique d'inscription
 
         if (isRegistered) {
             if (type === "Candidat") {

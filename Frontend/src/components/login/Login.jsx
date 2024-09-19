@@ -42,8 +42,8 @@ export default function Login(props) {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Logique d'authentification (à implémenter)
-        const isAuthenticated = true; // Remplacer par la vraie logique d'authentification
+    // Logique d'authentification (à implémenter)
+    const isAuthenticated = true; // Remplacer par la vraie logique d'authentification
 
         if (isAuthenticated) {
             if (type === "Candidat") {
