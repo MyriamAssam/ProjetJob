@@ -5,15 +5,19 @@ import { AuthContext } from "../context/AuthContext";
 
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
-  console.log(auth);
+  console.log("123432",auth.userId);
 
   return (
     <ul className="liens-nav">
-      {!auth.isLoggedIn && (
+      {auth.user === null ? (
         <li>
           <NavLink to="/connexion">Connexion</NavLink>
           <br />
           <NavLink to="/register">Inscription</NavLink>
+        </li>
+      ) : (
+        <li>
+          <NavLink to="/connexion" onClick={() => auth.logout()}>Deconnexion</NavLink>
         </li>
       )}
     </ul>

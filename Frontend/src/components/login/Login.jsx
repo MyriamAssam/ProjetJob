@@ -12,6 +12,8 @@ export default function Login(props) {
     const auth = useContext(AuthContext);
     const [error, SetError] = useState(null);
 
+    console.log("Login ", auth.userId);
+
     console.log(props.type);
     async function authSubmitHandler(event) {
         event.preventDefault();
@@ -30,7 +32,8 @@ export default function Login(props) {
           console.log("1", responseData);
             auth.login(responseData.userId, responseData.token);
 
-            console.log("12", auth.isLoggedIn);
+            
+            navigate("/offres");
         } catch (err) {
           SetError(err.message || "une erreur");
           console.log(err);
