@@ -1,11 +1,44 @@
-import { useState } from 'react';
+import { useContext, createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext, AuthProvider } from "../context/AuthContext";
 
-export default function Login({ type }) {
+export default function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [type, setType] = useState('');
+
     const navigate = useNavigate();
 
+    const auth = useContext(AuthContext);
+    const [error, SetError] = useState(null);
+
+    console.log(props.type);
+    async function authSubmitHandler(event) {
+        event.preventDefault();
+        const inputs = new FormData(event.target);
+        const data = Object.fromEntries(inputs.entries());
+        console.log("data ", data);
+        event.target.reset();
+        try {
+          const response = await fetch("http://localhost:5000/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+    
+          const responseData = await response.json();
+          console.log("1", responseData);
+            auth.login(responseData.userId, responseData.token);
+
+            console.log("12", auth.isLoggedIn);
+        } catch (err) {
+          SetError(err.message || "une erreur");
+          console.log(err);
+        }
+      }
+
+
+    /*
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -23,17 +56,21 @@ export default function Login({ type }) {
         } else {
             console.log("Échec de la connexion");
         }
-    };
+    }; */
 
     return (
-        <form onSubmit={handleLogin}>
+        <form onSubmit={authSubmitHandler}>
             <div>
                 <label>Email :</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div>
                 <label>Mot de passe :</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <input type="password" name="mdp" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            </div>
+            <div>
+                <label>Type :</label>
+                <input type="type" name="type" value={props.type} onChange={(e) => setType(e.target.value)} required />
             </div>
             <button type="submit">Login</button>
         </form>
