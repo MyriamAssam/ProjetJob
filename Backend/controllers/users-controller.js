@@ -106,6 +106,7 @@ const registerUser = async (req, res, next) => {
       )
     );
   }
+  
   // Si le email est valide
   const createdUser = new USERS({
     username,
@@ -127,7 +128,25 @@ const registerUser = async (req, res, next) => {
     );
   }
 
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+  let token;
+  try {
+    token = jwt.sign(
+      { email: email },
+        "tpsyntheseMelia&Ivan-cours4a5",
+      { expiresIn: "24h" }
+    );
+  } catch (e) {
+    console.log(e);
+    return next(
+      new HttpError(
+        "La connexion a échouée, veuillez réessayer plus tard.",
+        500
+      )
+    );
+  }
+
+
+  res.status(201).json({ user: createdUser.toObject({ getters: true }), token: token });
 };
 
 // --- CONNEXION ---

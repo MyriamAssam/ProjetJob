@@ -1,6 +1,6 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext, AuthProvider } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login(props) {
     const [email, setEmail] = useState('');
@@ -12,9 +12,6 @@ export default function Login(props) {
     const auth = useContext(AuthContext);
     const [error, SetError] = useState(null);
 
-    console.log("Login ", auth.userId);
-
-    console.log(props.type);
     async function authSubmitHandler(event) {
         event.preventDefault();
         const inputs = new FormData(event.target);

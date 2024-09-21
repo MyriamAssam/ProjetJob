@@ -18,8 +18,7 @@ export default function Inscription(props) {
         event.preventDefault();
         const inputs = new FormData(event.target);
         const data = Object.fromEntries(inputs.entries());
-        console.log(data.email);
-        console.log("data1 ", data);
+        
         event.target.reset();
         try {
           const response = await fetch("http://localhost:5000/users/register", {
@@ -29,16 +28,16 @@ export default function Inscription(props) {
           });
     
           const responseData = await response.json();
-          console.log("asdsad", responseData);
-          //auth.login(responseData);
+          auth.login(responseData.user.id, responseData.token);
+          if (responseData.user.id !== undefined) {
+              navigate("/offres");
+          }
+          console.log("data1 ", responseData);
         } catch (err) {
           SetError(err.message || "une erreur");
           console.log(err);
         }
       }
-      auth.logout();
-      console.log(user);
-      console.log(token);
       
 
 
