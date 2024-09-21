@@ -132,8 +132,8 @@ const registerUser = async (req, res, next) => {
 
 // --- CONNEXION ---
 const login = async (req, res, next) => {
-  const { email, mdp } = req.body;
-  console.log(`Credentials: [${email}][${mdp}]`);
+  const { email, mdp, type } = req.body;
+  console.log(`Credentials: [${email}][${mdp}][${type}]`);
 
   let existingUser;
   try {
@@ -144,7 +144,7 @@ const login = async (req, res, next) => {
   }
 
   // Vérification des identifiants
-  if (!existingUser || existingUser.mdp !== mdp) {
+  if (!existingUser || existingUser.mdp !== mdp || existingUser.type !== type) {
     return next(
       new HttpError(
         "Connexion échouée, veuillez vérifier vos identifiants.",

@@ -5,7 +5,6 @@ import { AuthContext } from "../context/AuthContext";
 
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
-  console.log("123432",auth.userId);
 
   return (
     <ul className="liens-nav">

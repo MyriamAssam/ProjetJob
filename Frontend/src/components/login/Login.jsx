@@ -22,18 +22,20 @@ export default function Login(props) {
         console.log("data ", data);
         event.target.reset();
         try {
-          const response = await fetch("http://localhost:5000/users/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
+            const response = await fetch("http://localhost:5000/users/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
     
-          const responseData = await response.json();
-          console.log("1", responseData);
+            const responseData = await response.json();
+            console.log("1", responseData);
             auth.login(responseData.userId, responseData.token);
-
+            if (responseData.userId !== undefined) {
+                navigate("/offres");
+            }
+            console.log("a");
             
-            navigate("/offres");
         } catch (err) {
           SetError(err.message || "une erreur");
           console.log(err);

@@ -49,12 +49,12 @@ const getOffreById = async (req, res, next) => {
 };
 
 // --- GET TOUTES LES OFFRES D'UN USER ---
-const getAllOffresUser = async (req, res, next) => {
-  const userId = req.params.userId;
+const getAllOffresEmployeur = async (req, res, next) => {
+  const employeurId = req.params.employeurId;
 
-  let offressDuUser;
+  let offresEmployeur;
   try {
-    offresDuUser = await OFFRES.find({ employeurId: userId });
+    offresEmployeur = await OFFRES.find({ employeurId: employeurId });
   } catch (e) {
     // Vérifier si l'erreur provient du fait que l'utilisateur est introuvable
     if (e.kind == "ObjectId" && e.path == "employeurId") {
@@ -70,7 +70,7 @@ const getAllOffresUser = async (req, res, next) => {
     );
   }
 
-  if (offresDuUser?.length === 0) {
+  if (offresEmployeur?.length === 0) {
     return next(
       new HttpError(
         "Cet utilisateur n'a pas encore publié de offres ou il est introuvable.",
@@ -80,7 +80,7 @@ const getAllOffresUser = async (req, res, next) => {
   }
 
   res.json({
-    offres: offresDuUser.map((o) => o.toObject({ getters: true })),
+    offres: offresEmployeur.map((o) => o.toObject({ getters: true })),
   });
 };
 
@@ -221,7 +221,7 @@ const deleteOffre = async (req, res, next) => {
 // --- EXPORTS ---
 exports.getAllOffres = getAllOffres;
 exports.getOffreById = getOffreById;
-exports.offresUser = getAllOffresUser;
+exports.offresUser = getAllOffresEmployeur;
 exports.recherche = findOffresByEmailOrTitre;
 
 exports.addOffre = addOffre;
