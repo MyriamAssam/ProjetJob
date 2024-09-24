@@ -18,27 +18,28 @@ export default function Inscription(props) {
         event.preventDefault();
         const inputs = new FormData(event.target);
         const data = Object.fromEntries(inputs.entries());
-        
+        console.log("data ", data);
         event.target.reset();
         try {
-          const response = await fetch("http://localhost:5000/users/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          });
-    
-          const responseData = await response.json();
-          auth.login(responseData.user.id, responseData.token);
-          if (responseData.user.id !== undefined) {
-              navigate("/offres");
-          }
-          console.log("data1 ", responseData);
+            const response = await fetch("http://localhost:5000/users/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const responseData = await response.json();
+            console.log("2", responseData);
+            auth.login(responseData.user.id, responseData.token);
+            if (responseData.user.id !== undefined) {
+                navigate("/offres");
+            }
+            console.log("data1 ", responseData);
         } catch (err) {
-          SetError(err.message || "une erreur");
-          console.log(err);
+            SetError(err.message || "une erreur");
+            console.log(err);
         }
-      }
-      
+    }
+
 
 
     /*
@@ -76,7 +77,7 @@ export default function Inscription(props) {
                 <label>Type :</label>
                 <input type="type" name="type" value={props.type} onChange={(e) => setType(e.target.value)} required />
             </div>
-            
+
             <button type="submit">Inscription</button>
         </form>
     );

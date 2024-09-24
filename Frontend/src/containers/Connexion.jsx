@@ -1,16 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "../components/login/Login";
 import OffersList from "../components/OffersList/OffersList";
-import { OFFER } from "../components/data/offers";
+import axios from "axios";
 
 export default function Connexion() {
   const [typeCompte, setTypeCompte] = useState("Candidat");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [offers, setOffers] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleLogin = () => {
 
     setIsAuthenticated(true);
   };
+
+  useEffect(() => {
+
+    const fetchOffers = async () => {
+      if (isAuthenticated) {
+        try {
+          let response;
+          if (typeCompte === "Candidat") {
+
+            response = await axios.get("http://localhost:5000/offres");
+          } else if (typeCompte === "Employeur") {
+
+            const employeurId = "66f1d6d0dbe127215621f263";
+            response = await axios.get(
+              `http://localhost:5000/offres/${employeurId}`
+            );
+          }
+          setOffers(response.data.offres);
+        } catch (err) {
+          setError("Erreur lors de la récupération des offres.");
+        }
+      }
+    };
+
+    fetchOffers();
+  }, [isAuthenticated, typeCompte]);
 
   return (
     <div>
@@ -21,9 +49,10 @@ export default function Connexion() {
 
       <Login type={typeCompte} onLogin={handleLogin} />
 
-      { }
-      {typeCompte === "Candidat" && isAuthenticated && (
-        <OffersList items={OFFER} />
+      {error && <div>{error}</div>}
+
+      {isAuthenticated && (
+        <OffersList items={offers} />
       )}
     </div>
   );
