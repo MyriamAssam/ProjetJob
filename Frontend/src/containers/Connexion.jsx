@@ -5,10 +5,10 @@ import { OFFER } from "../components/data/offers";
 
 export default function Connexion() {
   const [typeCompte, setTypeCompte] = useState("Candidat");
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Simule l'authentification
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogin = () => {
-    // Logique pour l'authentification ici
+
     setIsAuthenticated(true);
   };
 
@@ -21,7 +21,7 @@ export default function Connexion() {
 
       <Login type={typeCompte} onLogin={handleLogin} />
 
-      {/* Affiche les offres uniquement si l'utilisateur est un candidat et authentifié */}
+      { }
       {typeCompte === "Candidat" && isAuthenticated && (
         <OffersList items={OFFER} />
       )}

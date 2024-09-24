@@ -18,12 +18,12 @@ const routes = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Navigate to="/connexion" /> }, // Redirection vers /connexion
+      { path: "/", element: <Navigate to="/connexion" /> },
       { path: "/connexion", element: <Connexion /> },
       { path: "/register", element: <Register /> },
       { path: "/add-offer", element: <AddOffer /> },
       { path: "/offers-Entrp", element: <EntrepOffers /> },
-      { path: "/offres", element: <OffersList items={OFFER} /> }, // Ajout de la route pour les offres
+      { path: "/offres", element: <OffersList items={OFFER} /> },
     ],
   },
 ]);

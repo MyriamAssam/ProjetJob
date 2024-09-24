@@ -1,21 +1,19 @@
 export const OFFER = [
   {
-    id: "o1",
-    title: "Developpeurs front end",
-    description: "emploi avec avantages developpeur frontend",
-    creator: "u1",
+    employeurId: "o1",
+    email: "myriamassam@hotmail.com",
+    titre: "emploi avec avantages developpeur frontend",
+
   },
   {
-    id: "o2",
-    title: "Developpeur backend",
-    description: "emploi avec avantages developpeur backend",
-    creator: "u1",
+    employeurId: "o1",
+    email: "myriamassamea@hotmail.com",
+    titre: "emploi avec avantages ",
   },
   {
-    id: "o3",
-    title: "Analyste",
-    description: "emploi avec avantages en tant qu'analyste programmeur",
-    creator: "u2",
+    employeurId: "o1",
+    email: "lol@hotmail.com",
+    titre: "emploi ",
   },
 ];
 export default OFFER;

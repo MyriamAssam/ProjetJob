@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const getAllOffres = async (req, res, next) => {
   let offres;
   try {
-    offres = await OFFRES.find();
+    offres = await OFFRES.find().exec();
 
     if (!offres || offres.length == 0) {
       return next(new HttpError("Aucune offre trouvée...", 404));

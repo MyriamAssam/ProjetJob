@@ -4,9 +4,8 @@ import OffersItem from "../offersItem/OffersItem";
 import { AuthContext } from "../context/AuthContext";
 
 const OffersList = ({ items }) => {
-  
-  const auth = useContext(AuthContext); //utiliser console.log(auth.user) au besoin pour voir l'id de l'utilisateur connecté
 
+  const auth = useContext(AuthContext);
 
   if (items.length === 0) {
     return <h2>Aucune offre disponible</h2>;
@@ -17,9 +16,10 @@ const OffersList = ({ items }) => {
       {items.map((offer) => (
         <OffersItem
           key={offer.id}
-          creator={offer.creator}
-          title={offer.title}
-          description={offer.description}
+          titre={offer.titre}
+          email={offer.email}
+          employeurId={offer.employeurId}
+
         />
       ))}
     </ul>
