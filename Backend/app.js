@@ -28,7 +28,9 @@ app.use((req, res, next) => {
   app.use(errorHandler);
 
   const port = 5000;
-  const uri = "mongodb://localhost:27017/job";
+  const uri = "mongodb+srv://2265470:i8Fm7j4giBKmbfgm@jobbang-bd.ybvsp.mongodb.net/?retryWrites=true&w=majority&appName=jobbang-bd";
+
+  //const uri = "mongodb://localhost:27017/job";
 
 mongoose
 .connect(uri)
