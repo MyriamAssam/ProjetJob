@@ -6,7 +6,7 @@ const OffersItem = (props) => {
         <li className="offer-item">
             <div className="offer-item__info">
                 <h2>{props.titre}</h2>
-                <p>{props.employeurId}</p>
+                <p>Contact: {props.email}</p>
             </div>
         </li>
     );

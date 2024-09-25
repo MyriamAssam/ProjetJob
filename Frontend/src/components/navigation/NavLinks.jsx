@@ -3,9 +3,9 @@ import "./NavLinks.css";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-const NavLinks = (props) => {
+const NavLinks = () => {
   const auth = useContext(AuthContext);
-
+  
   return (
     <ul className="liens-nav">
       {auth.user === null ? (
@@ -17,6 +17,7 @@ const NavLinks = (props) => {
       ) : (
         <li>
           <NavLink to="/connexion" onClick={() => auth.logout()}>Deconnexion</NavLink>
+          
         </li>
       )}
     </ul>

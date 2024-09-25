@@ -1,48 +1,55 @@
-import React, { useState, useEffect, useContext } from "react";
-import OffersList from "../components/OffersList/OffersList";
+import React, { useContext, useState } from "react";
+import { useHttpClient } from "../hooks/http-hook";
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/context/AuthContext";
 
-const AddOffer = () => {
-  const [offers, setOffres] = useState([]);
+const AddOffer = (props) => {
+
+  const { sendRequest } = useHttpClient();
+
   const auth = useContext(AuthContext);
 
-  useEffect(() => {
-    const fetchOffres = async () => {
-      try {
-        let url = "http://localhost:5000/offres/";
+  const navigate = useNavigate();
 
-
-        if (auth.user?.role === "employeur") {
-          url = `http://localhost:5000/offres/employeur/${auth.user.id}`;
-        }
-
-        const response = await fetch(url, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des offres");
-        }
-
-        const data = await response.json();
-        if (data && data.offers) {
-          setOffres(data.offers);
-        } else {
-          console.error("Aucune offre trouvée dans la réponse");
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
+  async function addOffreSubmitHandler(event) {
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const data = Object.fromEntries(fd.entries());
+    const newOffre = {
+      titre: data.titre,
+      email: data.email,
+      employeurId: auth.user,
     };
 
-    fetchOffres();
-  }, [auth.user]);
+    try {
+      await sendRequest(
+        `http://localhost:5000/offres/`,
+        "POST",
+        JSON.stringify(newOffre),
+        { "Content-Type": "application/json" }
+      );
+    } catch (err) {
+      console.error(err);
+    }
+    console.log(JSON.stringify(newOffre));
+    event.target.reset();
+    navigate("/offres?refresh=true");
+  }
 
   return (
-    <div>
-      <OffersList items={offers} />
-    </div>
+    <form onSubmit={addOffreSubmitHandler}>
+            <div>
+                <label>Titre :</label>
+                <input type="titre" name="titre" required />
+            </div>
+            <div>
+                <label>Email :</label>
+                <input type="email" name="email" required />
+            </div>
+
+            <button type="submit">Créer</button>
+            <button onClick={() => navigate("/offres")}>Retour</button>
+    </form>
   );
 };
 
