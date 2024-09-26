@@ -39,7 +39,7 @@ const OffersList = () => {
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_BACKEND);
+        const response = await axios.get(process.env.REACT_APP_BACKEND +'offres/');
         setOffres(response.data.offres);
       } catch (err) {
         setError("Erreur lors de la récupération des offres.");
