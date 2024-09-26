@@ -24,7 +24,7 @@ export default function Login(props) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
+            console.log("asd", response);
             const responseData = await response.json();
             console.log("1", responseData);
             auth.login(responseData.userId, responseData.token);
