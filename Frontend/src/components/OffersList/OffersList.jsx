@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
-baseurl = process.env.REACT_APP_BACKEND;
+
 const OffersList = () => {
 
   const [offres, setOffres] = useState([]);
@@ -20,7 +20,7 @@ const OffersList = () => {
     async function infoProfil() {
       try {
         const foundUserData = await sendRequest(
-          `${baseurl}/users/find/${auth.user}`,
+          process.env.REACT_APP_BACKEND_URL + `users/find/${auth.user}`,
           "GET",
           null,
           {

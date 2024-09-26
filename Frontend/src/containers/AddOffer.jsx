@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useHttpClient } from "../hooks/http-hook";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/context/AuthContext";
-baseurl = process.env.REACT_APP_BACKEND;
+
 const AddOffer = (props) => {
 
   const { sendRequest } = useHttpClient();
