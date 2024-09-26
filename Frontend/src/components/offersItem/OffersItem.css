@@ -1,0 +1,46 @@
+.offer-item {
+    margin: 1rem;
+    padding: 1rem;
+    border-style: solid;
+}
+
+.offer-item__content {
+    padding: 0;
+}
+
+.offer-item__info {
+    padding: 1rem;
+    text-align: center;
+}
+
+
+
+.offer-item__info h2,
+.offer-item__info h3,
+.offer-item__info p {
+    margin: 0 0 0.5rem 0;
+}
+
+.offer-item__actions {
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+.offer-item__modal-content {
+    padding: 0;
+}
+
+.offer-item__modal-actions {
+    text-align: right;
+}
+
+.offer-item__actions button,
+.offer-item__actions a {
+    margin: 0.5rem;
+}
+
+.offer-container {
+    height: 15rem;
+    width: 100%;
+}

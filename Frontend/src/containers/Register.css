@@ -1,0 +1,14 @@
+
+.typeCompte {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 4em;
+    padding-top: 5em;
+}
+
+.typeCompte a {
+    background-color: gray;
+    padding: 1em;
+    cursor: pointer;
+}
