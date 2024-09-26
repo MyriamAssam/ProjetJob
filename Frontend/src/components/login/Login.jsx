@@ -19,12 +19,12 @@ export default function Login(props) {
         console.log("data ", data);
         event.target.reset();
         try {
-            const response = await fetch(process.env.REACT_APP_BACKEND_URL + 'users/login', {
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + 'users/login/', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
+            console.log("asd", response);
             const responseData = await response.json();
             console.log("1", responseData);
             auth.login(responseData.userId, responseData.token);

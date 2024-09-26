@@ -33,13 +33,13 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://2265470:i8Fm7j4giB
 //const uri = "mongodb://localhost:27017/job";
 
 mongoose
-  .connect(uri)
+  .connect(MONGODB_URI)
   .then(() => {
-    app.listen(port);
-    console.log(`Connexion à la BD [${uri}] sur le port ${port} réussie.`);
+    app.listen(PORT);
+    console.log(`Connexion à la BD [${MONGODB_URI}] sur le port ${PORT} réussie.`);
   })
   .catch((e) => {
-    console.log(`Connexion à la BD [${uri} sur le port ${port} échouée.]`);
+    console.log(`Connexion à la BD [${MONGODB_URI} sur le port ${PORT} échouée.]`);
     console.log(e);
   });
 

@@ -20,7 +20,7 @@ const OffersList = () => {
     async function infoProfil() {
       try {
         const foundUserData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + `users/find/${auth.user}`,
+          process.env.REACT_APP_BACKEND_URL + `users/find/${auth.user}/`,
           "GET",
           null,
           {
@@ -39,7 +39,7 @@ const OffersList = () => {
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_BACKEND);
+        const response = await axios.get(process.env.REACT_APP_BACKEND_URL +"offres/");
         setOffres(response.data.offres);
       } catch (err) {
         setError("Erreur lors de la récupération des offres.");
@@ -50,7 +50,16 @@ const OffersList = () => {
 
 
   if (offres.length === 0) {
-    return <h2>Aucune offre disponible</h2>;
+    return (
+      <div>
+        {type == "Employeur" ? (
+          <NavLink to="/add-offer">Ajouter une offre</NavLink>
+        ) : (
+          <div></div>
+        )}
+        <h2>Aucune offre disponible</h2>
+      </div>
+    );
   }
 
 
@@ -61,7 +70,6 @@ const OffersList = () => {
       ) : (
         <div></div>
       )}
-
       <ul>
         {offres.map((offer) => (
           <OffersItem
