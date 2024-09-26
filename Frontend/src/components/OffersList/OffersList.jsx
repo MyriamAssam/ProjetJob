@@ -50,7 +50,16 @@ const OffersList = () => {
 
 
   if (offres.length === 0) {
-    return <h2>Aucune offre disponible</h2>;
+    return (
+      <div>
+        {type == "Employeur" ? (
+          <NavLink to="/add-offer">Ajouter une offre</NavLink>
+        ) : (
+          <div></div>
+        )}
+        <h2>Aucune offre disponible</h2>
+      </div>
+    );
   }
 
 
@@ -61,7 +70,6 @@ const OffersList = () => {
       ) : (
         <div></div>
       )}
-
       <ul>
         {offres.map((offer) => (
           <OffersItem
