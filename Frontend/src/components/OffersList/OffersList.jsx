@@ -5,11 +5,11 @@ import { AuthContext } from "../context/AuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
-
+baseurl = process.env.REACT_APP_BACKEND;
 const OffersList = () => {
 
   const [offres, setOffres] = useState([]);
-  const [ type, setType ] = useState("");
+  const [type, setType] = useState("");
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
   const { sendRequest } = useHttpClient();
@@ -20,7 +20,7 @@ const OffersList = () => {
     async function infoProfil() {
       try {
         const foundUserData = await sendRequest(
-          `http://localhost:5000/users/find/${auth.user}`,
+          `${baseurl}/users/find/${auth.user}`,
           "GET",
           null,
           {
@@ -39,7 +39,7 @@ const OffersList = () => {
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/offres");
+        const response = await axios.get(process.env.REACT_APP_BACKEND);
         setOffres(response.data.offres);
       } catch (err) {
         setError("Erreur lors de la récupération des offres.");
@@ -57,11 +57,11 @@ const OffersList = () => {
   return (
     <div>
       {type == "Employeur" ? (
-            <NavLink to="/add-offer">Ajouter une offre</NavLink>
-          ) : (
-            <div></div>
-          )}
-    
+        <NavLink to="/add-offer">Ajouter une offre</NavLink>
+      ) : (
+        <div></div>
+      )}
+
       <ul>
         {offres.map((offer) => (
           <OffersItem

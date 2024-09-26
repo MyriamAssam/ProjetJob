@@ -8,7 +8,7 @@ export default function Connexion() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [offers, setOffers] = useState([]);
   const [error, setError] = useState(null);
-
+  baseurl = process.env.REACT_APP_BACKEND;
   const handleLogin = () => {
 
     setIsAuthenticated(true);
@@ -22,12 +22,12 @@ export default function Connexion() {
           let response;
           if (typeCompte === "Candidat") {
 
-            response = await axios.get("http://localhost:5000/offres");
+            response = await axios.get('${baseurl}/offres');
           } else if (typeCompte === "Employeur") {
 
             const employeurId = "66f1d6d0dbe127215621f263";
             response = await axios.get(
-              `http://localhost:5000/offres/${employeurId}`
+              `${baseurl}/offres/${employeurId}`
             );
           }
           setOffers(response.data.offres);

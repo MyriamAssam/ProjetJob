@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useHttpClient } from "../hooks/http-hook";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/context/AuthContext";
-
+baseurl = process.env.REACT_APP_BACKEND;
 const AddOffer = (props) => {
 
   const { sendRequest } = useHttpClient();
@@ -23,7 +23,7 @@ const AddOffer = (props) => {
 
     try {
       await sendRequest(
-        `http://localhost:5000/offres/`,
+        process.env.REACT_APP_BACKEND,
         "POST",
         JSON.stringify(newOffre),
         { "Content-Type": "application/json" }
@@ -38,17 +38,17 @@ const AddOffer = (props) => {
 
   return (
     <form onSubmit={addOffreSubmitHandler}>
-            <div>
-                <label>Titre :</label>
-                <input type="titre" name="titre" required />
-            </div>
-            <div>
-                <label>Email :</label>
-                <input type="email" name="email" required />
-            </div>
+      <div>
+        <label>Titre :</label>
+        <input type="titre" name="titre" required />
+      </div>
+      <div>
+        <label>Email :</label>
+        <input type="email" name="email" required />
+      </div>
 
-            <button type="submit">Créer</button>
-            <button onClick={() => navigate("/offres")}>Retour</button>
+      <button type="submit">Créer</button>
+      <button onClick={() => navigate("/offres")}>Retour</button>
     </form>
   );
 };
