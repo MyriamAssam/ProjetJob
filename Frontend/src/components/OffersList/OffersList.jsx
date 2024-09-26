@@ -20,7 +20,7 @@ const OffersList = () => {
     async function infoProfil() {
       try {
         const foundUserData = await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + `users/find/${auth.user}`,
+          process.env.REACT_APP_BACKEND_URL + `users/find/${auth.user}/`,
           "GET",
           null,
           {
@@ -39,7 +39,7 @@ const OffersList = () => {
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_BACKEND +'offres/');
+        const response = await axios.get(process.env.REACT_APP_BACKEND_URL +"offres/");
         setOffres(response.data.offres);
       } catch (err) {
         setError("Erreur lors de la récupération des offres.");

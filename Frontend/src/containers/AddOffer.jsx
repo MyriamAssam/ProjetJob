@@ -23,7 +23,7 @@ const AddOffer = (props) => {
 
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND + 'offres/',
+        process.env.REACT_APP_BACKEND_URL + 'offres/',
         "POST",
         JSON.stringify(newOffre),
         { "Content-Type": "application/json" }
