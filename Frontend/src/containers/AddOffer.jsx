@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useHttpClient } from "../hooks/http-hook";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/context/AuthContext";
 
 const AddOffer = (props) => {
-
   const { sendRequest } = useHttpClient();
 
   const auth = useContext(AuthContext);
@@ -23,7 +22,7 @@ const AddOffer = (props) => {
 
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL + 'offres/',
+        process.env.REACT_APP_BACKEND_URL + "offres/",
         "POST",
         JSON.stringify(newOffre),
         { "Content-Type": "application/json" }
@@ -48,7 +47,7 @@ const AddOffer = (props) => {
       </div>
 
       <button type="submit">Créer</button>
-      <button onClick={() => navigate("/offres")}>Retour</button>
+      <button onClick={() => navigate("/offers-Entrp")}>Retour</button>
     </form>
   );
 };
