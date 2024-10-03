@@ -1,48 +1,49 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Inscription(props) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [type, setType] = useState('');
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("");
+  const navigate = useNavigate();
 
-    const { user, token } = useAuthContext();
-    const auth = useContext(AuthContext);
-    const [error, SetError] = useState(null);
+  const { user, token } = useAuthContext();
+  const auth = useContext(AuthContext);
+  const [error, SetError] = useState(null);
 
-
-    async function authSubmitHandler(event) {
-        event.preventDefault();
-        const inputs = new FormData(event.target);
-        const data = Object.fromEntries(inputs.entries());
-        console.log("data ", data);
-        event.target.reset();
-        try {
-            const response = await fetch(process.env.REACT_APP_BACKEND_URL + "users/register/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-
-            const responseData = await response.json();
-            console.log("2", responseData);
-            auth.login(responseData.user.id, responseData.token);
-            if (responseData.user.id !== undefined) {
-                navigate("/offres");
-            }
-            console.log("data1 ", responseData);
-        } catch (err) {
-            SetError(err.message || "une erreur");
-            console.log(err);
+  async function authSubmitHandler(event) {
+    event.preventDefault();
+    const inputs = new FormData(event.target);
+    const data = Object.fromEntries(inputs.entries());
+    console.log("data ", data);
+    event.target.reset();
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "users/register/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
         }
+      );
+
+      const responseData = await response.json();
+      console.log("2", responseData);
+      auth.login(responseData.user.id, responseData.token);
+      // ca va afficher toutes les offres meme si t'es employeur
+      if (responseData.user.id !== undefined) {
+        navigate("/offres");
+      }
+      console.log("data1 ", responseData);
+    } catch (err) {
+      SetError(err.message || "une erreur");
+      console.log(err);
     }
+  }
 
-
-
-    /*
+  /*
     const handleRegister = (e) => {
         e.preventDefault();
 
@@ -63,22 +64,40 @@ export default function Inscription(props) {
         }
     }; */
 
-    return (
-        <form onSubmit={authSubmitHandler}>
-            <div>
-                <label>Email :</label>
-                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
-            <div>
-                <label>Mot de passe :</label>
-                <input type="password" name="mdp" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </div>
-            <div>
-                <label>Type :</label>
-                <input type="type" name="type" value={props.type} onChange={(e) => setType(e.target.value)} required />
-            </div>
+  return (
+    <form onSubmit={authSubmitHandler}>
+      <div>
+        <label>Email :</label>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Mot de passe :</label>
+        <input
+          type="password"
+          name="mdp"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Type :</label>
+        <input
+          type="type"
+          name="type"
+          value={props.type}
+          onChange={(e) => setType(e.target.value)}
+          required
+        />
+      </div>
 
-            <button type="submit">Inscription</button>
-        </form>
-    );
+      <button type="submit">Inscription</button>
+    </form>
+  );
 }

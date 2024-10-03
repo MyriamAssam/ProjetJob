@@ -10,24 +10,22 @@ export default function Connexion() {
   const [error, setError] = useState(null);
 
   const handleLogin = () => {
-
     setIsAuthenticated(true);
   };
 
   useEffect(() => {
-
     const fetchOffers = async () => {
       if (isAuthenticated) {
         try {
           let response;
           if (typeCompte === "Candidat") {
-
-            response = await axios.get(process.env.REACT_APP_BACKEND_URL + "offres/");
+            response = await axios.get(
+              process.env.REACT_APP_BACKEND_URL + "offres/"
+            );
           } else if (typeCompte === "Employeur") {
-
             const employeurId = "66f1d6d0dbe127215621f263";
             response = await axios.get(
-              process.env.REACT_APP_BACKEND_URL + `offres/${employeurId}/`
+              process.env.REACT_APP_BACKEND_URL + "offers-Entrp" //`offres/${employeurId}/`
             );
           }
           setOffers(response.data.offres);
@@ -51,9 +49,7 @@ export default function Connexion() {
 
       {error && <div>{error}</div>}
 
-      {isAuthenticated && (
-        <OffersList items={offers} />
-      )}
+      {isAuthenticated && <OffersList items={offers} />}
     </div>
   );
 }

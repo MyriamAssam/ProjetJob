@@ -1,46 +1,48 @@
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login(props) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [type, setType] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [type, setType] = useState("");
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const auth = useContext(AuthContext);
-    const [error, SetError] = useState(null);
+  const auth = useContext(AuthContext);
+  const [error, SetError] = useState(null);
 
-    async function authSubmitHandler(event) {
-        event.preventDefault();
-        const inputs = new FormData(event.target);
-        const data = Object.fromEntries(inputs.entries());
-        console.log("data ", data);
-        event.target.reset();
-        try {
-            const response = await fetch(process.env.REACT_APP_BACKEND_URL + 'users/login/', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-            console.log("asd", response);
-            const responseData = await response.json();
-            console.log("1", responseData);
-            auth.login(responseData.userId, responseData.token);
-            if (responseData.userId !== undefined) {
-                navigate("/offres");
-            }
-            console.log("a");
-
-        } catch (err) {
-            SetError(err.message || "une erreur");
-            console.log(err);
+  async function authSubmitHandler(event) {
+    event.preventDefault();
+    const inputs = new FormData(event.target);
+    const data = Object.fromEntries(inputs.entries());
+    console.log("data ", data);
+    event.target.reset();
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BACKEND_URL + "users/login/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
         }
+      );
+      console.log("asd", response);
+      const responseData = await response.json();
+      console.log("1", responseData);
+      auth.login(responseData.userId, responseData.token);
+      // A RE-VERIFIER
+      if (responseData.userId !== undefined) {
+        navigate("/offres");
+      }
+      console.log("a");
+    } catch (err) {
+      SetError(err.message || "une erreur");
+      console.log(err);
     }
+  }
 
-
-    /*
+  /*
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -60,21 +62,39 @@ export default function Login(props) {
         }
     }; */
 
-    return (
-        <form onSubmit={authSubmitHandler}>
-            <div>
-                <label>Email :</label>
-                <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
-            <div>
-                <label>Mot de passe :</label>
-                <input type="password" name="mdp" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </div>
-            <div>
-                <label>Type :</label>
-                <input type="type" name="type" value={props.type} onChange={(e) => setType(e.target.value)} required />
-            </div>
-            <button type="submit">Login</button>
-        </form>
-    );
+  return (
+    <form onSubmit={authSubmitHandler}>
+      <div>
+        <label>Email :</label>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Mot de passe :</label>
+        <input
+          type="password"
+          name="mdp"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Type :</label>
+        <input
+          type="type"
+          name="type"
+          value={props.type}
+          onChange={(e) => setType(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+  );
 }
