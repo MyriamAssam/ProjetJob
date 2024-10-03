@@ -25,7 +25,7 @@ export default function Connexion() {
           } else if (typeCompte === "Employeur") {
             const employeurId = "66f1d6d0dbe127215621f263";
             response = await axios.get(
-              process.env.REACT_APP_BACKEND_URL + "offers-Entrp" //`offres/${employeurId}/`
+              process.env.REACT_APP_BACKEND_URL + `offers-Entrp/${employeurId}/`
             );
           }
           setOffers(response.data.offres);

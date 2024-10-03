@@ -51,7 +51,8 @@ const getOffreById = async (req, res, next) => {
 // --- GET TOUTES LES OFFRES D'UN USER ---
 const getAllOffresEmployeur = async (req, res, next) => {
   const employeurId = req.params.employeurId;
-
+  //OFFRES dun employeur
+  // A CONTINUER
   let offresEmployeur;
   try {
     offresEmployeur = await OFFRES.find({ employeurId: employeurId });
@@ -92,7 +93,9 @@ const findOffresByEmailOrTitre = async (req, res, next) => {
   let offres = [];
   try {
     if (employeurId && mongoose.isValidObjectId(employeurId)) {
-      (await OFFRES.find({ employeurId: employeurId })).map((o) => offres.push(o));
+      (await OFFRES.find({ employeurId: employeurId })).map((o) =>
+        offres.push(o)
+      );
     }
     if (titre && titre.length > 0) {
       if (offres.length > 0) {
@@ -116,7 +119,6 @@ const findOffresByEmailOrTitre = async (req, res, next) => {
         });
       }
     }
-
   } catch (e) {
     console.log(e);
     return next(
@@ -138,11 +140,7 @@ const findOffresByEmailOrTitre = async (req, res, next) => {
 
 // --- AJOUT D'UNE OFFRE ---
 const addOffre = async (req, res, next) => {
-  const {
-    titre,
-    email,
-    employeurId,
-  } = req.body;
+  const { titre, email, employeurId } = req.body;
 
   const offre = new OFFRES({
     titre,
@@ -168,19 +166,15 @@ const modifierOffre = async (req, res, next) => {
   const modifications = req.body;
 
   try {
-    const offreModifiee = await OFFRES.findByIdAndUpdate(
-      oId,
-      modifications,
-      { new: true }
-    );
+    const offreModifiee = await OFFRES.findByIdAndUpdate(oId, modifications, {
+      new: true,
+    });
 
     if (!offreModifiee) {
       return next(new HttpError("Offre introuvable.", 404));
     }
 
-    res
-      .status(201)
-      .json({ offre: offreModifiee.toObject({ getters: true }) });
+    res.status(201).json({ offre: offreModifiee.toObject({ getters: true }) });
   } catch (e) {
     console.log(e);
     return next(
@@ -204,9 +198,7 @@ const deleteOffre = async (req, res, next) => {
       return next(new HttpError("Offre introuvable.", 404));
     }
 
-    res
-      .status(200)
-      .json({ message: "La offre a été supprimée avec succès." });
+    res.status(200).json({ message: "La offre a été supprimée avec succès." });
   } catch (e) {
     console.log(e);
     return next(
