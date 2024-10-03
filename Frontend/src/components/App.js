@@ -8,13 +8,11 @@ import EntrepOffers from "../containers/EntrepriseEmplois";
 import Register from "../containers/Register";
 import Connexion from "../containers/Connexion";
 import AddOffer from "../containers/AddOffer";
-import { useAuthContext } from "../hooks/useAuthContext";
 import RootLayout from "../containers/Roots";
 import OffersList from "../components/OffersList/OffersList";
 
 
 const App = () => {
-  const { user } = useAuthContext();
 
   const [error, setError] = useState(null);
 

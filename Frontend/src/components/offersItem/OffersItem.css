@@ -4,6 +4,10 @@
     border-style: solid;
 }
 
+.offer-title:hover {
+    cursor: pointer;
+}
+
 .offer-item__content {
     padding: 0;
 }

@@ -6,6 +6,7 @@ import { useHttpClient } from "../../hooks/http-hook";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
 
+
 const OffersList = () => {
 
   const [offres, setOffres] = useState([]);
@@ -16,6 +17,7 @@ const OffersList = () => {
 
   const location = useLocation();
 
+  // Trouve le type (Employeur ou Candidat)
   useEffect(() => {
     async function infoProfil() {
       try {
@@ -36,6 +38,7 @@ const OffersList = () => {
     infoProfil();
   }, [auth.user]);
 
+  // Trouve les offres
   useEffect(() => {
     const fetchOffres = async () => {
       try {
@@ -48,7 +51,7 @@ const OffersList = () => {
     fetchOffres();
   }, [location.search]);
 
-
+  // Permettre d'ajouter une offre alors que la liste d'offres est vide
   if (offres.length === 0) {
     return (
       <div>
@@ -81,6 +84,9 @@ const OffersList = () => {
           />
         ))}
       </ul>
+
+      
+
     </div>
   );
 };
