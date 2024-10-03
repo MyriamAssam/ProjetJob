@@ -28,9 +28,10 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://2265470:i8Fm7j4giBKmbfgm@jobbang-bd.ybvsp.mongodb.net/?retryWrites=true&w=majority&appName=jobbang-bd"
+//const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://2265470:i8Fm7j4giBKmbfgm@jobbang-bd.ybvsp.mongodb.net/?retryWrites=true&w=majority&appName=jobbang-bd"
 
-//const uri = "mongodb://localhost:27017/job";
+const MONGODB_URI = "mongodb://localhost:27017/job";
+
 
 mongoose
   .connect(MONGODB_URI)
