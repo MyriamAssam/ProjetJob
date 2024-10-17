@@ -45,7 +45,6 @@ const OffersList = () => {
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_BACKEND_URL + "offres/");
         const response = await axios.get(
           process.env.REACT_APP_BACKEND_URL + "offres/"
         );
@@ -57,7 +56,7 @@ const OffersList = () => {
     fetchOffres();
   }, [location.search]);
 
-
+  // Permettre d'ajouter une offre alors que la liste d'offres est vide
   if (offres.length === 0) {
     return (
       <div>
@@ -90,22 +89,27 @@ const OffersList = () => {
           ))}
         </div>
       ) : (
-        <div>
-          <ul>
-            {offres.map((offer) => (
-              <OffersItem
-                key={offer.id}
-                titre={offer.titre}
-                nomEmployeur={offer.nomEmployeur}
-                email={offer.email}
-                salaire={offer.salaire}
-                details={offer.details}
-                employeurId={offer.employeurId}
-              />
-            ))}
-          </ul>
-        </div>
+        <div></div>
       )}
+      <ul>
+        {offres
+          .filter(offer => type === "Employeur" || offer.published)
+          .map((offer) => (
+            <OffersItem
+              key={offer.id}
+              titre={offer.titre}
+              nomEmployeur={offer.nomEmployeur}
+              email={offer.email}
+              salaire={offer.salaire}
+              details={offer.details}
+              employeurId={offer.employeurId}
+            />
+          ))}
+
+      </ul>
+
+
+
     </div>
   );
 };
