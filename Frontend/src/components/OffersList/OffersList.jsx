@@ -9,6 +9,7 @@ import axios from "axios";
 const OffersList = () => {
   const [offres, setOffres] = useState([]);
   const [type, setType] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
   const id = auth.employeurId;
@@ -31,6 +32,7 @@ const OffersList = () => {
           }
         );
         setType(foundUserData.users[0].type);
+        setEmail(foundUserData.users[0].email);
         console.log(foundUserData);
       } catch (e) {
         console.error(e);

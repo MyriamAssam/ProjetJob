@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const offresRoutes = require("./routes/offres-routes");
 const usersRoutes = require("./routes/users-routes");
+const candidaturesRoutes = require("./routes/candidatures-routes");
 const errorHandler = require("./handler/error-handler");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
 app.use("/offres", offresRoutes);
 app.use("/users", usersRoutes);
+app.use("/candidatures", candidaturesRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Route non trouvée");
