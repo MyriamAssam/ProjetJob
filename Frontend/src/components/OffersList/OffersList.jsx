@@ -78,7 +78,10 @@ const OffersList = () => {
           <OffersItem
             key={offer.id}
             titre={offer.titre}
+            nomEmployeur={offer.nomEmployeur}
             email={offer.email}
+            salaire={offer.salaire}
+            details={offer.details}
             employeurId={offer.employeurId}
 
           />

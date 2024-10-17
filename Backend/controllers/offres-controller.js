@@ -140,11 +140,14 @@ const findOffresByEmailOrTitre = async (req, res, next) => {
 
 // --- AJOUT D'UNE OFFRE ---
 const addOffre = async (req, res, next) => {
-  const { titre, email, employeurId } = req.body;
+  const { titre, nomEmployeur, email, salaire, details, employeurId } = req.body;
 
   const offre = new OFFRES({
     titre,
+    nomEmployeur,
     email,
+    salaire,
+    details,
     employeurId,
   });
 

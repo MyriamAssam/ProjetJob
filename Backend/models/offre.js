@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const offreSchema = new mongoose.Schema({
   titre: { type: String, required: true },
-  //NomEmployeur: { type: String, required: true },
+  nomEmployeur: { type: String, required: false },
   email: { type: String, required: true },
-  //salaire: { type: Number, required: true },
-  //detail: { type: String, required: true },
+  salaire: { type: Number, required: false },
+  details: { type: String, required: false },
   employeurId: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
 });
 

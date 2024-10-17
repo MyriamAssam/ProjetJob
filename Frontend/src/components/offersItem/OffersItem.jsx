@@ -19,11 +19,13 @@ const OffersItem = (props) => {
 
             <Popup trigger={btnPopup} setTrigger={setBtnPopup}>
                 <h1>{props.titre}</h1>
-                <p>Nom de l'employeur : </p>
+                <p>Nom de l'employeur : {props.nomEmployeur}</p>
                 <p>Contact: {props.email}</p>
-                <p>Salaire: </p>
-                <h5>Détails :</h5>
-                <p>kghfjskljhfskldgjsdklgjdsklgjklsdgjklgjsdklsjgklgfksdkgfdsklgjsklgjklsfklfsgdklfgjlkdsjgklfdgsdkl</p>
+                <p>Salaire: {props.salaire} $/h</p>
+                <h5>Détails : </h5>
+                <p>{props.details}</p>
+
+                <button type="submit">Postuler</button>
             </Popup>
         </div>
     );

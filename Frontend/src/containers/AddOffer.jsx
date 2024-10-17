@@ -16,7 +16,9 @@ const AddOffer = (props) => {
     const data = Object.fromEntries(fd.entries());
     const newOffre = {
       titre: data.titre,
+      nomEmployeur: data.nomEmployeur,
       email: data.email,
+      salaire: data.salaire,
       details: data.details,
       employeurId: auth.user,
     };
@@ -39,14 +41,21 @@ const AddOffer = (props) => {
   return (
     <form onSubmit={addOffreSubmitHandler}>
       <div>
-        <label>Titre:</label>
+        <label>Titre*:</label>
         <input type="titre" name="titre" required />
       </div>
       <div>
-        <label>Email: </label>
+        <label>Email*: </label>
         <input type="email" name="email" required />
       </div>
-
+      <div>
+        <label>Nom employeur: </label>
+        <input type="nomEmployeur" name="nomEmployeur" />
+      </div>
+      <div>
+        <label>Salaire: </label>
+        <input type="salaire" name="salaire" />
+      </div>
       <div>
         <label>Détails de l'emploi: </label>
         <textarea name="details" cols="60" rows="5"></textarea>
