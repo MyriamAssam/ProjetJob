@@ -7,16 +7,10 @@ import ListeOffres from "../components/OffersList/OffersList";
 
 const EntrepriseEmplois = () => {
   const auth = useContext(AuthContext);
-  const id = auth.userId;
-  const filtreJobs = OFFRES.filter((offre) => offre.creator === id);
-  return (
-    <div>
-      <ListeOffres items={filtreJobs} />
-      <Link to={"/add-offer"}>
-        <button>Ajouter un autre emploi</button>
-      </Link>
-    </div>
-  );
+  const id = auth.employeurId;
+  const filtreJobs = OFFRES.filter((offre) => offre.employeurId === id);
+
+  return <ListeOffres items={filtreJobs} />;
 };
 
 export default EntrepriseEmplois;
