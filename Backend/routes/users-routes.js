@@ -11,7 +11,7 @@ router.get("/find/:chaine", userController.findUser);
 router.get("/allUsers", userController.getAllUsers);
 
 // Routes accessibles seulement si connecté
-router.use(checkAuth);
+//router.use(checkAuth);
 router.get("/:userId", userController.getUserById);
 router.put("/:userId", userController.majUser);
 

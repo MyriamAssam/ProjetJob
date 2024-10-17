@@ -11,12 +11,14 @@ const OffersList = () => {
 
   const [offres, setOffres] = useState([]);
   const [type, setType] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
   const { sendRequest } = useHttpClient();
 
   const location = useLocation();
 
+  
   // Trouve le type (Employeur ou Candidat)
   useEffect(() => {
     async function infoProfil() {
@@ -30,6 +32,7 @@ const OffersList = () => {
           }
         );
         setType(foundUserData.users[0].type);
+        setEmail(foundUserData.users[0].email);
         console.log(foundUserData);
       } catch (e) {
         console.error(e);
@@ -65,7 +68,6 @@ const OffersList = () => {
     );
   }
 
-
   return (
     <div>
       {type == "Employeur" ? (
@@ -77,12 +79,14 @@ const OffersList = () => {
         {offres.map((offer) => (
           <OffersItem
             key={offer.id}
+            id={offer.id}
             titre={offer.titre}
             nomEmployeur={offer.nomEmployeur}
             email={offer.email}
             salaire={offer.salaire}
             details={offer.details}
             employeurId={offer.employeurId}
+            emailCandidat={email}
 
           />
         ))}
