@@ -8,7 +8,6 @@ const getAllOffres = async (req, res, next) => {
   let offres;
   try {
     offres = await OFFRES.find().exec();
-
     if (!offres || offres.length == 0) {
       return next(new HttpError("Aucune offre trouvée...", 404));
     }
@@ -23,6 +22,7 @@ const getAllOffres = async (req, res, next) => {
   }
   res.json({ offres: offres.map((o) => o.toObject({ getters: true })) });
 };
+
 
 // --- GET SPECIFIC OFFRE ---
 const getOffreById = async (req, res, next) => {
@@ -140,28 +140,27 @@ const findOffresByEmailOrTitre = async (req, res, next) => {
 
 // --- AJOUT D'UNE OFFRE ---
 const addOffre = async (req, res, next) => {
-  const { titre, nomEmployeur, email, salaire, details, employeurId } = req.body;
+  const { titre, nomEmployeur, email, salaire, details, employeurId, published } = req.body;
 
-  const offre = new OFFRES({
+  const newOffre = new OFFRES({
     titre,
     nomEmployeur,
     email,
     salaire,
     details,
     employeurId,
+    published: published || false
   });
 
   try {
-    await offre.save();
-  } catch (e) {
-    console.log(e);
-    return next(
-      new HttpError("Échec lors de la sauvegarde de la nouvelle offre.", 500)
-    );
+    await newOffre.save();
+    res.status(201).json({ offre: newOffre.toObject({ getters: true }) });
+  } catch (err) {
+    return next(new HttpError("Adding offer failed, please try again.", 500));
   }
-
-  res.status(201).json({ offre: offre.toObject({ getters: true }) });
 };
+
+
 
 // --- MODIFICATION D'UNE OFFRE ---
 const modifierOffre = async (req, res, next) => {

@@ -5,15 +5,14 @@ import { AuthContext } from "../components/context/AuthContext";
 
 const AddOffer = (props) => {
   const { sendRequest } = useHttpClient();
-
   const auth = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   async function addOffreSubmitHandler(event) {
     event.preventDefault();
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
+
     const newOffre = {
       titre: data.titre,
       nomEmployeur: data.nomEmployeur,
@@ -21,6 +20,7 @@ const AddOffer = (props) => {
       salaire: data.salaire,
       details: data.details,
       employeurId: auth.user,
+      published: data.published === "on",
     };
 
     try {
@@ -59,6 +59,11 @@ const AddOffer = (props) => {
       <div>
         <label>Détails de l'emploi: </label>
         <textarea name="details" cols="60" rows="5"></textarea>
+      </div>
+
+      <div>
+        <label>Publier cette offre :</label>
+        <input type="checkbox" name="published" />
       </div>
 
       <button type="submit">Créer</button>

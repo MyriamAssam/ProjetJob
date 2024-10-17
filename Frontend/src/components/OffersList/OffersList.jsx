@@ -17,7 +17,7 @@ const OffersList = () => {
 
   const location = useLocation();
 
-  // Trouve le type (Employeur ou Candidat)
+
   useEffect(() => {
     async function infoProfil() {
       try {
@@ -38,11 +38,11 @@ const OffersList = () => {
     infoProfil();
   }, [auth.user]);
 
-  // Trouve les offres
+
   useEffect(() => {
     const fetchOffres = async () => {
       try {
-        const response = await axios.get(process.env.REACT_APP_BACKEND_URL +"offres/");
+        const response = await axios.get(process.env.REACT_APP_BACKEND_URL + "offres/");
         setOffres(response.data.offres);
       } catch (err) {
         setError("Erreur lors de la récupération des offres.");
@@ -51,7 +51,7 @@ const OffersList = () => {
     fetchOffres();
   }, [location.search]);
 
-  // Permettre d'ajouter une offre alors que la liste d'offres est vide
+
   if (offres.length === 0) {
     return (
       <div>
@@ -74,21 +74,23 @@ const OffersList = () => {
         <div></div>
       )}
       <ul>
-        {offres.map((offer) => (
-          <OffersItem
-            key={offer.id}
-            titre={offer.titre}
-            nomEmployeur={offer.nomEmployeur}
-            email={offer.email}
-            salaire={offer.salaire}
-            details={offer.details}
-            employeurId={offer.employeurId}
-
-          />
-        ))}
+        {offres
+          .filter(offer => type === "Employeur" || offer.published)
+          .map((offer) => (
+            <OffersItem
+              key={offer.id}
+              titre={offer.titre}
+              nomEmployeur={offer.nomEmployeur}
+              email={offer.email}
+              salaire={offer.salaire}
+              details={offer.details}
+              employeurId={offer.employeurId}
+            />
+          ))}
       </ul>
 
-      
+
+
 
     </div>
   );
