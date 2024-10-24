@@ -8,6 +8,8 @@ const OffersItem = (props) => {
     const [btnPopup, setBtnPopup] = useState(false);
     const [btnPopup2, setBtnPopup2] = useState(false);
     const [candidatures, setCandidatures] = useState([]);
+    const [postule, setPostule] = useState(false);
+    let pos = 0;
 
     const { sendRequest } = useHttpClient();
 
@@ -33,7 +35,32 @@ const OffersItem = (props) => {
           }
         }
         listeCandidatures();
+      } else {
+        async function listeCandidaturesCandidat() {
+          try {
+            const resCandidatures = await sendRequest(
+              process.env.REACT_APP_BACKEND_URL + `candidatures/liste/${auth.user}/`,
+              "GET",
+              null,
+              {
+                "Content-Type": "application/json",
+              }
+            );
+            setCandidatures(resCandidatures.candidatures);
+            console.log(candidatures);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        listeCandidaturesCandidat();
+        while (postule == false && pos < candidatures.length) {
+          if (candidatures[pos].offreId == props.id) {
+            setPostule(true);
+          }
+          pos++;
+        }
       }
+      
     }, [btnPopup]);
 
 
@@ -64,6 +91,7 @@ const OffersItem = (props) => {
         event.target.reset();
 
         setBtnPopup2(true);
+        setBtnPopup(false);
       }
 
     return (
@@ -109,7 +137,13 @@ const OffersItem = (props) => {
                       <h5>Détails : </h5>
                       <p>{props.details}</p>
 
-                      <button type="submit">Postuler</button>
+                      {postule === true ? (
+                        <p>Vous avez postulé</p>
+                      ) : (
+                        <button type="submit">Postuler</button>
+                      )
+                      }
+                      
                   </form>
                 </Popup>
 

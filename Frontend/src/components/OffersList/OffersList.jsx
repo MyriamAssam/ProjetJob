@@ -38,7 +38,10 @@ const OffersList = () => {
         console.error(e);
       }
     }
-    infoProfil();
+    if (auth.user !== null) {
+      infoProfil();
+    }
+    
   }, [auth.user]);
 
 

@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/", candidatureController.getAllCandidatures);
 router.get("/find/:cId", candidatureController.getCandidatureById);
 router.get("/:offreId", candidatureController.candidaturesOffre);
-router.get("/:candidatureId", candidatureController.candidaturesCandidat);
+router.get("/liste/:candidatId", candidatureController.candidaturesCandidat);
 
 router.post("/find", candidatureController.recherche);
 
