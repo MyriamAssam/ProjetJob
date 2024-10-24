@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./OffersItem.css";
 import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
@@ -7,10 +7,35 @@ import { AuthContext } from "../context/AuthContext";
 const OffersItem = (props) => {
     const [btnPopup, setBtnPopup] = useState(false);
     const [btnPopup2, setBtnPopup2] = useState(false);
+    const [candidatures, setCandidatures] = useState([]);
 
     const { sendRequest } = useHttpClient();
 
+    // TO figure out if the array candidatures only contains the ones for the right offer
     const auth = useContext(AuthContext);
+
+    useEffect(() => {
+      if (auth.user == props.employeurId) {
+        async function listeCandidatures() {
+          try {
+            const resCandidatures = await sendRequest(
+              process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}/`,
+              "GET",
+              null,
+              {
+                "Content-Type": "application/json",
+              }
+            );
+            setCandidatures(resCandidatures.candidatures);
+            console.log(candidatures);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        listeCandidatures();
+      }
+    }, [btnPopup]);
+
 
     async function addCandidatureSubmitHandler(event) {
 
@@ -51,25 +76,51 @@ const OffersItem = (props) => {
                     <p>Contact: {props.email}</p>
                 </div>
             </li>
+            {auth.user == props.employeurId ? (
+              <div>
+                <Popup trigger={btnPopup} setTrigger={setBtnPopup} type="info">
+                  <form onSubmit={addCandidatureSubmitHandler}>
+                      <h1>{props.titre}</h1>
+                      <p>Nom de l'employeur : {props.nomEmployeur}</p>
+                      <p>Contact: {props.email}</p>
+                      <p>Salaire: {props.salaire} $/h</p>
+                      <h5>Détails : </h5>
+                      <p>{props.details}</p>
 
-            <Popup trigger={btnPopup} setTrigger={setBtnPopup} type="info">
-                <form onSubmit={addCandidatureSubmitHandler}>
-                    <h1>{props.titre}</h1>
-                    <p>Nom de l'employeur : {props.nomEmployeur}</p>
-                    <p>Contact: {props.email}</p>
-                    <p>Salaire: {props.salaire} $/h</p>
-                    <h5>Détails : </h5>
-                    <p>{props.details}</p>
+                      <h2>Liste de candidatures : </h2>
 
-                    <button type="submit">Postuler</button>
-                </form>
-            </Popup>
+                      <ul>
 
-            <Popup trigger={btnPopup2} setTrigger={setBtnPopup2} type="confirmation">
-                <h5>Candidature envoyée.</h5>
-                <p>Bonne chance! Tu en auras besoin...</p>
-            </Popup>
-        </div>
+                        {candidatures.length > 0 ? candidatures.map((candidature) => (
+                          <li key={candidature.id}>{candidature.email}</li>
+                        )) : null}
+                      </ul>
+                  </form>
+                </Popup>
+              </div>
+            ) : (
+              <div>
+                <Popup trigger={btnPopup} setTrigger={setBtnPopup} type="info">
+                  <form onSubmit={addCandidatureSubmitHandler}>
+                      <h1>{props.titre}</h1>
+                      <p>Nom de l'employeur : {props.nomEmployeur}</p>
+                      <p>Contact: {props.email}</p>
+                      <p>Salaire: {props.salaire} $/h</p>
+                      <h5>Détails : </h5>
+                      <p>{props.details}</p>
+
+                      <button type="submit">Postuler</button>
+                  </form>
+                </Popup>
+
+                <Popup trigger={btnPopup2} setTrigger={setBtnPopup2} type="confirmation">
+                  <h5>Candidature envoyée.</h5>
+                  <p>Bonne chance! Tu en auras besoin...</p>
+                </Popup>
+              </div>
+            )}
+            
+      </div>
     );
 };
 

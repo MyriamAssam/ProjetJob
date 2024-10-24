@@ -12,7 +12,7 @@ const OffersList = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const auth = useContext(AuthContext);
-  const id = auth.employeurId;
+  const id = auth.user;
 
   const { sendRequest } = useHttpClient();
   const location = useLocation();
@@ -33,7 +33,7 @@ const OffersList = () => {
         );
         setType(foundUserData.users[0].type);
         setEmail(foundUserData.users[0].email);
-        console.log(foundUserData);
+        console.log(foundUserData.users[0]);
       } catch (e) {
         console.error(e);
       }
@@ -44,14 +44,28 @@ const OffersList = () => {
 
   useEffect(() => {
     const fetchOffres = async () => {
-      try {
-        const response = await axios.get(
-          process.env.REACT_APP_BACKEND_URL + "offres/"
-        );
-        setOffres(response.data.offres);
-      } catch (err) {
-        setError("Erreur lors de la récupération des offres.");
+      if (type == "Employeur") {
+        try {
+          const response = await axios.get(
+            process.env.REACT_APP_BACKEND_URL + `offres/${id}`
+          );
+          console.log(response.data.offres);
+          setOffres(response.data.offres);
+          console.log(offres); 
+        } catch (err) {
+          setError("Erreur lors de la récupération des offres.");
+        }
+      } else {
+        try {
+          const response = await axios.get(
+            process.env.REACT_APP_BACKEND_URL + "offres/"
+          );
+          setOffres(response.data.offres);
+        } catch (err) {
+          setError("Erreur lors de la récupération des offres.");
+        }
       }
+      
     };
     fetchOffres();
   }, [location.search]);
@@ -71,42 +85,48 @@ const OffersList = () => {
     );
   }
 
+ 
   return (
     <div>
       {type === "Employeur" ? (
         <div>
           <NavLink to="/add-offer">Ajouter une offre</NavLink>
-          {filtreEmp.map((offer) => (
-            <OffersItem
+          {filtreEmp
+            .filter(offer => type === "Employeur" || offer.published)
+            .map((offer) => (
+              <OffersItem
               key={offer.id}
+              id={offer.id}
               titre={offer.titre}
               nomEmployeur={offer.nomEmployeur}
               email={offer.email}
               salaire={offer.salaire}
               details={offer.details}
               employeurId={offer.employeurId}
-            />
+              emailCandidat={email}
+              />
           ))}
         </div>
       ) : (
-        <div></div>
-      )}
-      <ul>
+        <div>
         {offres
-          .filter(offer => type === "Employeur" || offer.published)
+          .filter(offer => offer.published)
           .map((offer) => (
             <OffersItem
               key={offer.id}
+              id={offer.id}
               titre={offer.titre}
               nomEmployeur={offer.nomEmployeur}
               email={offer.email}
               salaire={offer.salaire}
               details={offer.details}
               employeurId={offer.employeurId}
+              emailCandidat={email}
             />
           ))}
-
-      </ul>
+        </div>
+      )}
+      
 
 
 

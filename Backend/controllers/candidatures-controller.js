@@ -71,6 +71,7 @@ const getAllCandidaturesOffre = async (req, res, next) => {
     );
   }
 
+  
   if (candidaturesOffre?.length === 0) {
     return next(
       new HttpError(
