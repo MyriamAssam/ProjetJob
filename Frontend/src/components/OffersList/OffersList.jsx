@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 import { NavLink, useLocation } from "react-router-dom";
 import axios from "axios";
+import "./OffersList.css";
 
 const OffersList = () => {
   const [offres, setOffres] = useState([]);
@@ -41,9 +42,7 @@ const OffersList = () => {
     if (auth.user !== null) {
       infoProfil();
     }
-    
   }, [auth.user]);
-
 
   useEffect(() => {
     const fetchOffres = async () => {
@@ -54,7 +53,7 @@ const OffersList = () => {
           );
           console.log(response.data.offres);
           setOffres(response.data.offres);
-          console.log(offres); 
+          console.log(offres);
         } catch (err) {
           setError("Erreur lors de la récupération des offres.");
         }
@@ -68,7 +67,6 @@ const OffersList = () => {
           setError("Erreur lors de la récupération des offres.");
         }
       }
-      
     };
     fetchOffres();
   }, [location.search]);
@@ -88,51 +86,51 @@ const OffersList = () => {
     );
   }
 
- 
   return (
     <div>
       {type === "Employeur" ? (
         <div>
-          <NavLink to="/add-offer">Ajouter une offre</NavLink>
+          <ul className="nav-links">
+            <li>
+              <NavLink to="/add-offer">Ajouter une offre</NavLink>
+            </li>
+          </ul>
+
           {filtreEmp
-            .filter(offer => type === "Employeur" || offer.published)
+            .filter((offer) => type === "Employeur" || offer.published)
             .map((offer) => (
               <OffersItem
-              key={offer.id}
-              id={offer.id}
-              titre={offer.titre}
-              nomEmployeur={offer.nomEmployeur}
-              email={offer.email}
-              salaire={offer.salaire}
-              details={offer.details}
-              employeurId={offer.employeurId}
-              emailCandidat={email}
+                key={offer.id}
+                id={offer.id}
+                titre={offer.titre}
+                nomEmployeur={offer.nomEmployeur}
+                email={offer.email}
+                salaire={offer.salaire}
+                details={offer.details}
+                employeurId={offer.employeurId}
+                emailCandidat={email}
               />
-          ))}
+            ))}
         </div>
       ) : (
         <div>
-        {offres
-          .filter(offer => offer.published)
-          .map((offer) => (
-            <OffersItem
-              key={offer.id}
-              id={offer.id}
-              titre={offer.titre}
-              nomEmployeur={offer.nomEmployeur}
-              email={offer.email}
-              salaire={offer.salaire}
-              details={offer.details}
-              employeurId={offer.employeurId}
-              emailCandidat={email}
-            />
-          ))}
+          {offres
+            .filter((offer) => offer.published)
+            .map((offer) => (
+              <OffersItem
+                key={offer.id}
+                id={offer.id}
+                titre={offer.titre}
+                nomEmployeur={offer.nomEmployeur}
+                email={offer.email}
+                salaire={offer.salaire}
+                details={offer.details}
+                employeurId={offer.employeurId}
+                emailCandidat={email}
+              />
+            ))}
         </div>
       )}
-      
-
-
-
     </div>
   );
 };

@@ -5,19 +5,23 @@ import { AuthContext } from "../context/AuthContext";
 
 const NavLinks = () => {
   const auth = useContext(AuthContext);
-  
+
   return (
-    <ul className="liens-nav">
+    <ul className="navi-links">
       {auth.user === null ? (
-        <li>
-          <NavLink to="/connexion">Connexion</NavLink>
-          <br />
-          <NavLink to="/register">Inscription</NavLink>
-        </li>
+        <>
+          <li>
+            <NavLink to="/connexion">Connexion</NavLink>
+          </li>
+          <li>
+            <NavLink to="/register">Inscription</NavLink>
+          </li>
+        </>
       ) : (
         <li>
-          <NavLink to="/connexion" onClick={() => auth.logout()}>Deconnexion</NavLink>
-          
+          <NavLink to="/connexion" onClick={() => auth.logout()}>
+            Deconnexion
+          </NavLink>
         </li>
       )}
     </ul>
