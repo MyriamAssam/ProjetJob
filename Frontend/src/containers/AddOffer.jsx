@@ -1,3 +1,4 @@
+import "./AddOffer.css";
 import React, { useContext } from "react";
 import { useHttpClient } from "../hooks/http-hook";
 import { useNavigate } from "react-router-dom";
@@ -40,34 +41,57 @@ const AddOffer = (props) => {
 
   return (
     <form onSubmit={addOffreSubmitHandler}>
-      <div>
-        <label>Titre*:</label>
-        <input type="titre" name="titre" required />
-      </div>
-      <div>
-        <label>Email*: </label>
-        <input type="email" name="email" required />
-      </div>
-      <div>
-        <label>Nom employeur: </label>
-        <input type="nomEmployeur" name="nomEmployeur" />
-      </div>
-      <div>
-        <label>Salaire: </label>
-        <input type="salaire" name="salaire" />
-      </div>
-      <div>
-        <label>Détails de l'emploi: </label>
-        <textarea name="details" cols="60" rows="5"></textarea>
+      <h2>Créer nouvelle offre!</h2>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Titre*:</label>
+          <input type="titre" name="titre" required />
+        </div>
       </div>
 
-      <div>
-        <label>Publier cette offre :</label>
-        <input type="checkbox" name="published" />
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Email*: </label>
+          <input type="email" name="email" required />
+        </div>
       </div>
 
-      <button type="submit">Créer</button>
-      <button onClick={() => navigate("/offers-Entrp")}>Retour</button>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Nom employeur: </label>
+          <input type="nomEmployeur" name="nomEmployeur" />
+        </div>
+      </div>
+
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Salaire: </label>
+          <input type="salaire" name="salaire" />
+        </div>
+      </div>
+
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Détails de l'emploi: </label>
+          <textarea name="details" cols="60" rows="5"></textarea>
+        </div>
+      </div>
+
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Publier cette offre :</label>
+          <input type="checkbox" name="published" />
+        </div>
+      </div>
+
+      <p className="form-actions">
+        <button className="boutonLog" type="submit">
+          Créer
+        </button>
+        <button className="boutonLog" onClick={() => navigate("/offers-Entrp")}>
+          Retour
+        </button>
+      </p>
     </form>
   );
 };

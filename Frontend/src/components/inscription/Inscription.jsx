@@ -1,3 +1,4 @@
+import "./Inscription.css";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -66,38 +67,50 @@ export default function Inscription(props) {
 
   return (
     <form onSubmit={authSubmitHandler}>
-      <div>
-        <label>Email :</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Mot de passe :</label>
-        <input
-          type="password"
-          name="mdp"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Type :</label>
-        <input
-          type="type"
-          name="type"
-          value={props.type}
-          onChange={(e) => setType(e.target.value)}
-          required
-        />
+      <h2>Inscription à JoBang!</h2>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Email :</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
       </div>
 
-      <button type="submit">Inscription</button>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Mot de passe :</label>
+          <input
+            type="password"
+            name="mdp"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Type :</label>
+          <input
+            type="type"
+            name="type"
+            value={props.type}
+            onChange={(e) => setType(e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
+      <p className="form-actions">
+        <button className="boutonLog" type="submit">
+          Inscription
+        </button>
+      </p>
     </form>
   );
 }

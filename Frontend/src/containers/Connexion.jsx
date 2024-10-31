@@ -41,6 +41,7 @@ export default function Connexion() {
   return (
     <div>
       <div className="typeCompte">
+        <h2>Je suis un...</h2>
         <a onClick={() => setTypeCompte("Candidat")}>Candidat</a>
         <a onClick={() => setTypeCompte("Employeur")}>Employeur</a>
       </div>

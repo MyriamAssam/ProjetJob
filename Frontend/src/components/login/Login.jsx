@@ -1,3 +1,4 @@
+import "./Login.css";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -64,37 +65,48 @@ export default function Login(props) {
 
   return (
     <form onSubmit={authSubmitHandler}>
-      <div>
-        <label>Email :</label>
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <h2>Connexion à JoBang!</h2>
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Email :</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
       </div>
-      <div>
-        <label>Mot de passe :</label>
-        <input
-          type="password"
-          name="mdp"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Mot de passe :</label>
+          <input
+            type="password"
+            name="mdp"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
       </div>
-      <div>
-        <label>Type :</label>
-        <input
-          type="type"
-          name="type"
-          value={props.type}
-          onChange={(e) => setType(e.target.value)}
-          required
-        />
+      <div className="controles-rows">
+        <div className="controles no-margin">
+          <label>Type :</label>
+          <input
+            type="type"
+            name="type"
+            value={props.type}
+            onChange={(e) => setType(e.target.value)}
+            required
+          />
+        </div>
       </div>
-      <button type="submit">Login</button>
+      <p className="form-actions">
+        <button className="boutonLog" type="submit">
+          Connexion
+        </button>
+      </p>
     </form>
   );
 }
