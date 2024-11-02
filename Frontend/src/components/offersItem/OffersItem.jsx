@@ -4,16 +4,18 @@ import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
 import { AuthContext } from "../context/AuthContext";
 
-const OffersItem = (props) => {
+
+const OffersItem = ({onChange = () => {}, ...props}) => {
     const [btnPopup, setBtnPopup] = useState(false);
     const [btnPopup2, setBtnPopup2] = useState(false);
     const [candidatures, setCandidatures] = useState([]);
     const [postule, setPostule] = useState(false);
+    const [publiee, setPubliee] = useState(props.published);
     let pos = 0;
 
     const { sendRequest } = useHttpClient();
 
-    // TO figure out if the array candidatures only contains the ones for the right offer
+   
     const auth = useContext(AuthContext);
 
     useEffect(() => {
@@ -92,7 +94,45 @@ const OffersItem = (props) => {
 
         setBtnPopup2(true);
         setBtnPopup(false);
+      };
+
+
+      function publicationHandler (event) {
+        event.preventDefault();
+
+        const newChecked = event.target.checked;
+
+        setPubliee(newChecked);
       }
+
+      // S'assure que le useState publiee est bien changé avant de commencer de changer la publication dans la BD
+      useEffect(() => {
+
+        onChange(publiee);
+
+        async function publication() {
+
+          const updatedOffre = {
+            published: publiee,
+          };
+  
+          try {
+            await sendRequest(
+              process.env.REACT_APP_BACKEND_URL + `offres/${props.id}`,
+              "PUT",
+              JSON.stringify(updatedOffre),
+              {
+                "Content-Type": "application/json",
+              }
+            );
+          } catch (err) {
+            console.error(err);
+          }
+          console.log(JSON.stringify(updatedOffre));
+        }
+        publication();
+        
+      }, [publiee]);
 
     return (
         <div>
@@ -123,6 +163,13 @@ const OffersItem = (props) => {
                           <li key={candidature.id}>{candidature.email}</li>
                         )) : null}
                       </ul>
+                      <br/><br/>
+                      <div className="controles-rows">
+                        <div className="controles no-margin">
+                          <label>Publier cette offre :</label>
+                          <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee}/>
+                        </div>
+                      </div>
                   </form>
                 </Popup>
               </div>
