@@ -97,7 +97,28 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
     setBtnPopup2(true);
     setBtnPopup(false);
   }
+  const handleStatusChange = async (event, candidatureId) => {
+    const newStatus = event.target.value;
 
+    try {
+      const updatedCandidature = { status: newStatus };
+      await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}candidatures/${candidatureId}`,
+        "PATCH",
+        JSON.stringify(updatedCandidature),
+        { "Content-Type": "application/json" }
+      );
+      setCandidatures((prevCandidatures) =>
+        prevCandidatures.map((candidature) =>
+          candidature.id === candidatureId
+            ? { ...candidature, status: newStatus }
+            : candidature
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
   function publicationHandler(event) {
     event.preventDefault();
 
@@ -171,6 +192,32 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
                   <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee} />
                 </div>
               </div>
+              {
+                publiee && (
+                  <ul className="candidatures-list" >
+                    {
+                      candidatures.length > 0 ? (
+                        candidatures.map((candidature) => (
+                          <li key={candidature.id} className="candidature-item" >
+                            <span>{candidature.email} </span>
+                            < select
+                              defaultValue={candidature.status || "en attente"}
+                              onChange={(event) =>
+                                handleStatusChange(event, candidature.id)
+                              }
+                            >
+                              <option value="en attente" > En attente </option>
+                              < option value="acceptée" > Acceptée </option>
+                              < option value="rejetée" > Rejetée </option>
+                            </select>
+                          </li>
+                        ))
+                      ) : (
+                        <li>Aucune candidature trouvée.</li>
+                      )
+                    }
+                  </ul>
+                )}
             </form>
           </Popup>
         </div>
