@@ -105,7 +105,7 @@ const AddOffer = (props) => {
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Publier cette offre :</label>
-          <input type="checkbox" name="published" checked={published} />
+          <input type="checkbox" name="published" defaultChecked={published} />
         </div>
       </div>
 
