@@ -48,3 +48,36 @@
     height: 15rem;
     width: 100%;
 }
+
+.candidatures-list {
+    margin-top: 10px;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.candidature-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.candidature-item select {
+    margin-left: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.controles-rows {
+    margin-top: 15px;
+}
+
+.controles {
+    display: flex;
+    align-items: center;
+}
+
+.no-margin {
+    margin-bottom: 0;
+}
