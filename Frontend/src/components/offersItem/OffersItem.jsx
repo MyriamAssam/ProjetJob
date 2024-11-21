@@ -17,8 +17,10 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
 
   const auth = useContext(AuthContext);
 
+  // est déclenché à chaque fois qu'on ouvre le popup
   useEffect(() => {
     if (auth.user == props.employeurId) {
+      // cherche la liste de candidatures en temps qu'employeur
       async function listeCandidatures() {
         try {
           const resCandidatures = await sendRequest(
@@ -37,6 +39,7 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
       }
       listeCandidatures();
     } else {
+      // cherche la liste de candidatures en temps que candidat
       async function listeCandidaturesCandidat() {
         try {
           const resCandidatures = await sendRequest(
@@ -55,6 +58,9 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
         }
       }
       listeCandidaturesCandidat();
+      // parcours la liste de candidatures jusqu'à temps qu'on trouve une candidature du candidat pour 
+      // l'offre qu'on a cliqué dessus (setPostule(true) pour indiquer que le candidat a deja appliqué pour cette offre, empêchant de postuler une autre fois).
+      // Si on ne trouve pas de candidatures du candidat dans pour cette offre, postule est à false, indiquant que le candidat peut postuler.
       while (postule == false && pos < candidatures.length) {
         if (candidatures[pos].offreId == props.id) {
           setPostule(true);
