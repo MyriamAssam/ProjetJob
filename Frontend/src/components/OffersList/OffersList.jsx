@@ -4,6 +4,7 @@ import OffersItem from "../offersItem/OffersItem";
 import { AuthContext } from "../context/AuthContext";
 import { useHttpClient } from "../../hooks/http-hook";
 import { NavLink, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./OffersList.css";
 
@@ -12,8 +13,11 @@ const OffersList = () => {
   const [type, setType] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
+  const [recharger, setRecharger] = useState(false);
+
   const auth = useContext(AuthContext);
   const id = auth.user;
+  const navigate = useNavigate();
 
   const { sendRequest } = useHttpClient();
   const location = useLocation();
@@ -71,6 +75,19 @@ const OffersList = () => {
     fetchOffres();
   }, [location.search]);
 
+
+  const handleCheckboxChange = (newChecked) => {
+    setRecharger(newChecked);
+    navigate(`/offres?refresh=${recharger}`);
+    if (recharger) {
+      console.log("Parent refreshed1");
+    } else {
+      console.log("Parent refreshed2");
+    }
+    
+  };
+
+
   // Permettre d'ajouter une offre alors que la liste d'offres est vide
   if (offres.length === 0) {
     return (
@@ -110,6 +127,8 @@ const OffersList = () => {
                 details={offer.details}
                 employeurId={offer.employeurId}
                 emailCandidat={email}
+                published={offer.published}
+                onChange={handleCheckboxChange}
               />
             ))}
         </div>
@@ -128,6 +147,9 @@ const OffersList = () => {
                 details={offer.details}
                 employeurId={offer.employeurId}
                 emailCandidat={email}
+                published={offer.published}
+                setRecharger={setRecharger}
+                recharger={recharger}
               />
             ))}
         </div>
