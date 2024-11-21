@@ -75,7 +75,6 @@ const OffersList = () => {
     fetchOffres();
   }, [location.search]);
 
-
   const handleCheckboxChange = (newChecked) => {
     setRecharger(newChecked);
     navigate(`/offres?refresh=${recharger}`);
@@ -84,9 +83,7 @@ const OffersList = () => {
     } else {
       console.log("Parent refreshed2");
     }
-    
   };
-
 
   // Permettre d'ajouter une offre alors que la liste d'offres est vide
   if (offres.length === 0) {

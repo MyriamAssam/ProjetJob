@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 
 const NavLinks = () => {
   const auth = useContext(AuthContext);
-  const [typeCompte, setTypeCompte] = useState("");
+  const [type, setType] = useState("");
   const { sendRequest } = useHttpClient();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const NavLinks = () => {
             "Content-Type": "application/json",
           }
         );
-        setTypeCompte(foundUserData.users[0].typeCompte);
+        setType(foundUserData.users[0].type);
         console.log(foundUserData.users[0]);
       } catch (e) {
         console.error(e);
@@ -44,7 +44,7 @@ const NavLinks = () => {
         </>
       ) : (
         <ul className="navi-links">
-          {typeCompte === "Employeur" ? (
+          {type === "Employeur" ? (
             <li>
               <NavLink to="/connexion" onClick={() => auth.logout()}>
                 Deconnexion
