@@ -1,13 +1,36 @@
 import "./AddOffer.css";
 import React, { useContext } from "react";
 import { useHttpClient } from "../hooks/http-hook";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../components/context/AuthContext";
 
 const AddOffer = (props) => {
   const { sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
   const navigate = useNavigate();
+  let titre, nomEmployeur, email, salaire, details, published
+
+  const location = useLocation();
+  if (location.state !== null) {
+    titre = location.state.titre + " (COPIE)";
+    nomEmployeur = location.state.nomEmployeur;
+    email = location.state.email;
+    salaire = location.state.salaire;
+    details = location.state.details;
+    published = location.state.published;
+
+    console.log("published : " + published);
+  } else {
+    titre = "";
+    nomEmployeur = "";
+    email = "";
+    salaire = 0;
+    details = "";
+    published = null;
+    console.log(titre);
+  }
+  
+
 
   async function addOffreSubmitHandler(event) {
     event.preventDefault();
@@ -39,48 +62,50 @@ const AddOffer = (props) => {
     navigate("/offres?refresh=true");
   }
 
+
+
   return (
     <form onSubmit={addOffreSubmitHandler}>
       <h2>Créer nouvelle offre!</h2>
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Titre*:</label>
-          <input type="titre" name="titre" required />
+          <input type="titre" name="titre" defaultValue={titre} required />
         </div>
       </div>
 
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Email*: </label>
-          <input type="email" name="email" required />
+          <input type="email" name="email" defaultValue={email} required />
         </div>
       </div>
 
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Nom employeur: </label>
-          <input type="nomEmployeur" name="nomEmployeur" />
+          <input type="nomEmployeur" name="nomEmployeur" defaultValue={nomEmployeur} />
         </div>
       </div>
 
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Salaire: </label>
-          <input type="salaire" name="salaire" />
+          <input type="salaire" name="salaire" defaultValue={salaire} />
         </div>
       </div>
 
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Détails de l'emploi: </label>
-          <textarea name="details" cols="60" rows="5"></textarea>
+          <textarea name="details" cols="60" rows="5" defaultValue={details}></textarea>
         </div>
       </div>
 
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Publier cette offre :</label>
-          <input type="checkbox" name="published" />
+          <input type="checkbox" name="published" checked={published} />
         </div>
       </div>
 

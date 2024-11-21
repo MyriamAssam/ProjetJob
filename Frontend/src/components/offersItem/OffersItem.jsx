@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import "./OffersItem.css";
 import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
@@ -169,6 +170,23 @@ const OffersItem = ({onChange = () => {}, ...props}) => {
                           <label>Publier cette offre :</label>
                           <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee}/>
                         </div>
+                      </div>
+                      <br/>
+                      <div>
+                        <NavLink
+                          key={"/add-offer"}
+                          to= "/add-offer"
+                          state= {{
+                            titre: props.titre,
+                            nomEmployeur: props.nomEmployeur,
+                            email: props.email,
+                            salaire: props.salaire,
+                            details: props.details,
+                            published: props.published
+                          }}
+                        >
+                          Dupliquer cette offre 
+                        </NavLink>
                       </div>
                   </form>
                 </Popup>
