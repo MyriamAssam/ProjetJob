@@ -1,9 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHttpClient } from "../hooks/http-hook";
 import { AuthContext } from "../components/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ListeSoumission = (props) => {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [soumissions, setSoumissions] = useState([]);
 
@@ -12,7 +14,7 @@ const ListeSoumission = (props) => {
       async function listeSoumissions() {
         try {
           const resSoumissions = await sendRequest(
-            process.env.REACT_APP_BACKEND_URL + `listeSoumissions/${props.id}`,
+            process.env.REACT_APP_BACKEND_URL + `soumissions/${props.id}/`,
             "GET",
             null,
             { "Content-Type": "application/json" }
@@ -29,7 +31,7 @@ const ListeSoumission = (props) => {
         try {
           const resSoumissions = await sendRequest(
             process.env.REACT_APP_BACKEND_URL +
-              `listeSoumissions/liste/${auth.user}`,
+              `soumissions/liste/${auth.user}/`,
             "GET",
             null,
             {
@@ -61,7 +63,7 @@ const ListeSoumission = (props) => {
     };
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL + "listeSoumissions/",
+        process.env.REACT_APP_BACKEND_URL + "soumissions/",
         "POST",
         JSON.stringify(newSoumission),
         { "Content-Type": "application/json" }
@@ -73,20 +75,25 @@ const ListeSoumission = (props) => {
     event.target.reset();
   }
   return (
-    <form onSubmit={addSoumissionSubmitHandler}>
-      <h1>Liste de postulations:</h1>
-      <br />
-      <ul>
-        {soumissions.length > 0
-          ? soumissions.map((soumission) => (
-              <>
-                <li key={soumission.id}>{soumission.titreOffre}</li>
-                <li key={soumission.id}>{soumission.email}</li>
-              </>
-            ))
-          : null}
-      </ul>
-    </form>
+    <div>
+      <button className="boutonLog" onClick={() => navigate("/offres")}>
+        Retour
+      </button>
+      <form onSubmit={addSoumissionSubmitHandler}>
+        <h1>Liste de postulations:</h1>
+        <br />
+        <ul>
+          {soumissions.length > 0
+            ? soumissions.map((soumission) => (
+                <>
+                  <li key={soumission.id}>{soumission.titreOffre}</li>
+                  <li key={soumission.id}>{soumission.email}</li>
+                </>
+              ))
+            : null}
+        </ul>
+      </form>
+    </div>
   );
 };
 
