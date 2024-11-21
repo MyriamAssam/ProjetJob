@@ -78,6 +78,7 @@ const OffersList = () => {
         {type === "Employeur" ? (
           <NavLink to="/add-offer">Ajouter une offre</NavLink>
         ) : (
+          //Ne marche pas correctement quand l'employeur n'a pas d'offres
           <div>
             <h2>Aucune offre disponible</h2>
           </div>

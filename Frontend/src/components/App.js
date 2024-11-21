@@ -22,7 +22,6 @@ const App = () => {
         { path: "/", element: <Navigate to="/connexion" /> },
         { path: "/connexion", element: <Connexion /> },
         { path: "/register", element: <Register /> },
-        //{ path: "employeurId/EntrepOffers", element: <EntrepOffers /> },
         { path: "/offers-Entrp", element: <EntrepOffers /> },
         { path: "/offres", element: <OffersList /> },
         { path: "/add-offer", element: <AddOffer /> },

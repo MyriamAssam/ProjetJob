@@ -44,27 +44,6 @@ export default function Inscription(props) {
     }
   }
 
-  /*
-    const handleRegister = (e) => {
-        e.preventDefault();
-
-
-    // Logique d'inscription (à implémenter)
-    const isRegistered = true; // Remplacer par la vraie logique d'inscription
-
-        if (isRegistered) {
-            if (type === "Candidat") {
-                // Redirige vers la page des offres si l'utilisateur est un candidat
-                navigate("/offres");
-            } else if (type === "Employeur") {
-                // Redirige vers la page d'ajout d'offre si l'utilisateur est un employeur
-                navigate("/add-offer");
-            }
-        } else {
-            console.log("Échec de l'inscription");
-        }
-    }; */
-
   return (
     <form onSubmit={authSubmitHandler}>
       <h2>Inscription à JoBang!</h2>
