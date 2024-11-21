@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import "./OffersItem.css";
 import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
@@ -15,40 +16,52 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
   const { sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
 
-  // Charger les candidatures
+  // est déclenché à chaque fois qu'on ouvre le popup
   useEffect(() => {
-    if (auth.user === props.employeurId) {
+    if (auth.user == props.employeurId) {
+      // cherche la liste de candidatures en temps qu'employeur
       async function listeCandidatures() {
         try {
           const resCandidatures = await sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}candidatures/${props.id}/`,
+            process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}/`,
             "GET",
             null,
-            { "Content-Type": "application/json" }
+            {
+              "Content-Type": "application/json",
+            }
           );
           setCandidatures(resCandidatures.candidatures);
+          console.log(candidatures);
         } catch (e) {
           console.error(e);
         }
       }
       listeCandidatures();
     } else {
+      // cherche la liste de candidatures en temps que candidat
       async function listeCandidaturesCandidat() {
         try {
           const resCandidatures = await sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}candidatures/liste/${auth.user}/`,
+            process.env.REACT_APP_BACKEND_URL +
+            `candidatures/liste/${auth.user}/`,
             "GET",
             null,
-            { "Content-Type": "application/json" }
+            {
+              "Content-Type": "application/json",
+            }
           );
           setCandidatures(resCandidatures.candidatures);
+          console.log(candidatures);
         } catch (e) {
           console.error(e);
         }
       }
       listeCandidaturesCandidat();
-      while (postule === false && pos < candidatures.length) {
-        if (candidatures[pos].offreId === props.id) {
+      // parcours la liste de candidatures jusqu'à temps qu'on trouve une candidature du candidat pour 
+      // l'offre qu'on a cliqué dessus (setPostule(true) pour indiquer que le candidat a deja appliqué pour cette offre, empêchant de postuler une autre fois).
+      // Si on ne trouve pas de candidatures du candidat dans pour cette offre, postule est à false, indiquant que le candidat peut postuler.
+      while (postule == false && pos < candidatures.length) {
+        if (candidatures[pos].offreId == props.id) {
           setPostule(true);
         }
         pos++;
@@ -56,71 +69,86 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
     }
   }, [btnPopup]);
 
-  // Gestion du changement de statut des candidatures
-  const handleStatusChange = async (event, candidatureId) => {
-    const newStatus = event.target.value;
+  async function addCandidatureSubmitHandler(event) {
+    console.log(props.emailCandidat);
+
+    event.preventDefault();
+    const fd = new FormData(event.target);
+    const data = Object.fromEntries(fd.entries());
+    const newCandidature = {
+      email: props.emailCandidat,
+      offreId: props.id,
+      candidatId: auth.user,
+    };
 
     try {
-      const updatedCandidature = { status: newStatus };
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}candidatures/${candidatureId}`,
-        "PATCH",
-        JSON.stringify(updatedCandidature),
+        process.env.REACT_APP_BACKEND_URL + "candidatures/",
+        "POST",
+        JSON.stringify(newCandidature),
         { "Content-Type": "application/json" }
-      );
-      setCandidatures((prevCandidatures) =>
-        prevCandidatures.map((candidature) =>
-          candidature.id === candidatureId
-            ? { ...candidature, status: newStatus }
-            : candidature
-        )
       );
     } catch (err) {
       console.error(err);
     }
-  };
+    console.log(JSON.stringify(newCandidature));
+    event.target.reset();
 
-  // Gestion de la publication
-  const publicationHandler = (event) => {
+    setBtnPopup2(true);
+    setBtnPopup(false);
+  }
+
+  function publicationHandler(event) {
+    event.preventDefault();
+
     const newChecked = event.target.checked;
-    setPubliee(newChecked);
-  };
 
+    setPubliee(newChecked);
+  }
+
+  // S'assure que le useState publiee est bien changé avant de commencer de changer la publication dans la BD
   useEffect(() => {
+
     onChange(publiee);
+
     async function publication() {
-      const updatedOffre = { published: publiee };
+
+      const updatedOffre = {
+        published: publiee,
+      };
+
       try {
         await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}offres/${props.id}`,
+          process.env.REACT_APP_BACKEND_URL + `offres/${props.id}`,
           "PUT",
           JSON.stringify(updatedOffre),
-          { "Content-Type": "application/json" }
+          {
+            "Content-Type": "application/json",
+          }
         );
       } catch (err) {
         console.error(err);
       }
+      console.log(JSON.stringify(updatedOffre));
     }
     publication();
+
   }, [publiee]);
 
   return (
     <div>
       <li className="offer-item">
         <div className="offer-item__info">
-          <span
-            className="offer-title"
-            onClick={() => setBtnPopup((prev) => !prev)}
-          >
+          <span className="offer-title" onClick={() => btnPopup ? setBtnPopup(false) : setBtnPopup(true)}>
             <h2>{props.titre}</h2>
           </span>
           <p>Contact: {props.email}</p>
         </div>
       </li>
-      {auth.user === props.employeurId ? (
+      {auth.user == props.employeurId ? (
         <div>
           <Popup trigger={btnPopup} setTrigger={setBtnPopup} type="info">
-            <form>
+            <form onSubmit={addCandidatureSubmitHandler}>
               <h1>{props.titre}</h1>
               <p>Nom de l'employeur : {props.nomEmployeur}</p>
               <p>Contact: {props.email}</p>
@@ -128,48 +156,28 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
               <h5>Détails : </h5>
               <p>{props.details}</p>
 
+              <h2>Liste de candidatures : </h2>
+
+              <ul>
+
+                {candidatures.length > 0 ? candidatures.map((candidature) => (
+                  <li key={candidature.id}>{candidature.email}</li>
+                )) : null}
+              </ul>
+              <br /><br />
               <div className="controles-rows">
                 <div className="controles no-margin">
                   <label>Publier cette offre :</label>
-                  <input
-                    type="checkbox"
-                    name="published"
-                    onChange={publicationHandler}
-                    checked={publiee}
-                  />
+                  <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee} />
                 </div>
               </div>
-
-              {publiee && (
-                <ul className="candidatures-list">
-                  {candidatures.length > 0 ? (
-                    candidatures.map((candidature) => (
-                      <li key={candidature.id} className="candidature-item">
-                        <span>{candidature.email}</span>
-                        <select
-                          defaultValue={candidature.status || "en attente"}
-                          onChange={(event) =>
-                            handleStatusChange(event, candidature.id)
-                          }
-                        >
-                          <option value="en attente">En attente</option>
-                          <option value="acceptée">Acceptée</option>
-                          <option value="rejetée">Rejetée</option>
-                        </select>
-                      </li>
-                    ))
-                  ) : (
-                    <li>Aucune candidature trouvée.</li>
-                  )}
-                </ul>
-              )}
             </form>
           </Popup>
         </div>
       ) : (
         <div>
           <Popup trigger={btnPopup} setTrigger={setBtnPopup} type="info">
-            <form>
+            <form onSubmit={addCandidatureSubmitHandler}>
               <h1>{props.titre}</h1>
               <p>Nom de l'employeur : {props.nomEmployeur}</p>
               <p>Contact: {props.email}</p>
@@ -187,10 +195,11 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
 
           <Popup trigger={btnPopup2} setTrigger={setBtnPopup2} type="confirmation">
             <h5>Candidature envoyée.</h5>
-            <p>Bonne chance!</p>
+            <p>Bonne chance! Tu en auras besoin...</p>
           </Popup>
         </div>
       )}
+
     </div>
   );
 };
