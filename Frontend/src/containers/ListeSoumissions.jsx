@@ -72,6 +72,22 @@ const ListeSoumission = (props) => {
     console.log(JSON.stringify(newSoumission));
     event.target.reset();
   }
+  return (
+    <form onSubmit={addSoumissionSubmitHandler}>
+      <h1>Liste de postulations:</h1>
+      <br />
+      <ul>
+        {soumissions.length > 0
+          ? soumissions.map((soumission) => (
+              <>
+                <li key={soumission.id}>{soumission.titreOffre}</li>
+                <li key={soumission.id}>{soumission.email}</li>
+              </>
+            ))
+          : null}
+      </ul>
+    </form>
+  );
 };
 
 export default ListeSoumission;
