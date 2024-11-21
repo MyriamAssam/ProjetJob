@@ -174,23 +174,23 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
                   />
                 </div>
               </div>
-                      <br/>
-                      <div>
-                        <NavLink
-                          key={"/add-offer"}
-                          to= "/add-offer"
-                          state= {{
-                            titre: props.titre,
-                            nomEmployeur: props.nomEmployeur,
-                            email: props.email,
-                            salaire: props.salaire,
-                            details: props.details,
-                            published: props.published
-                          }}
-                        >
-                          Dupliquer cette offre 
-                        </NavLink>
-                      </div>
+              <br />
+              <div>
+                <NavLink
+                  key={"/add-offer"}
+                  to="/add-offer"
+                  state={{
+                    titre: props.titre,
+                    nomEmployeur: props.nomEmployeur,
+                    email: props.email,
+                    salaire: props.salaire,
+                    details: props.details,
+                    published: props.published,
+                  }}
+                >
+                  Dupliquer cette offre
+                </NavLink>
+              </div>
             </form>
           </Popup>
         </div>
