@@ -5,7 +5,7 @@ import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
 import { AuthContext } from "../context/AuthContext";
 
-const OffersItem = ({ onChange = () => {}, ...props }) => {
+const OffersItem = ({ onChange = () => { }, ...props }) => {
   const [btnPopup, setBtnPopup] = useState(false);
   const [btnPopup2, setBtnPopup2] = useState(false);
   const [candidatures, setCandidatures] = useState([]);
@@ -15,7 +15,7 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
 
   const { sendRequest } = useHttpClient();
   const auth = useContext(AuthContext);
-
+  console.log('id : ' + props.id + ' userId : ' + auth.user);
   // est déclenché à chaque fois qu'on ouvre le popup
   useEffect(() => {
     if (auth.user == props.employeurId) {
@@ -43,7 +43,7 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
         try {
           const resCandidatures = await sendRequest(
             process.env.REACT_APP_BACKEND_URL +
-              `candidatures/liste/${auth.user}/`,
+            `candidatures/liste/${auth.user}/`,
             "GET",
             null,
             {
@@ -99,13 +99,14 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
     setBtnPopup(false);
   }
   const handleStatusChange = async (event, candidatureId) => {
+    console.log('handleStatusChange is called');
     const newStatus = event.target.value;
-
+    console.log('newStatus : ' + newStatus);
     try {
       const updatedCandidature = { status: newStatus };
       await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}candidatures/${candidatureId}`,
-        "PATCH",
+        "PUT",
         JSON.stringify(updatedCandidature),
         { "Content-Type": "application/json" }
       );
@@ -216,6 +217,7 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
                 </div>
               </div>
               <br />
+              <br />
               <div>
                 <NavLink
                   key={"/add-offer"}
@@ -247,18 +249,31 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
               <p>{props.details}</p>
 
               {postule === true ? (
-                <p>Vous avez postulé</p>
+                <div>
+                  <p>Vous avez postulé</p>
+
+                  {candidatures.length > 0 ? (
+                    candidatures
+                      .filter(
+                        (candidature) =>
+                          candidature.offreId === props.id && candidature.candidatId === auth.user
+                      )
+                      .map((candidature) => (
+                        <p key={candidature.id}>
+                          Statut de votre candidature : {candidature.status || "en attente"}
+                        </p>
+                      ))
+                  ) : (
+                    <p>Aucune candidature trouvée pour cette offre.</p>
+                  )}
+                </div>
               ) : (
                 <button type="submit">Postuler</button>
               )}
             </form>
           </Popup>
 
-          <Popup
-            trigger={btnPopup2}
-            setTrigger={setBtnPopup2}
-            type="confirmation"
-          >
+          <Popup trigger={btnPopup2} setTrigger={setBtnPopup2} type="confirmation">
             <h5>Candidature envoyée.</h5>
             <p>Bonne chance! Tu en auras besoin...</p>
           </Popup>

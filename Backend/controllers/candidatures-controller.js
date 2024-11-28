@@ -53,13 +53,13 @@ const getCandidatureById = async (req, res, next) => {
 // --- GET TOUTES LES CANDIDATURES D'UNE OFFRE ---
 const getAllCandidaturesOffre = async (req, res, next) => {
   const offreId = req.params.offreId;
-  //CANDIDATURES dun employeur
-  // A CONTINUER
+
   let candidaturesOffre;
   try {
-    candidaturesOffre = await CANDIDATURES.find({ offreId: offreId });
+    candidaturesOffre = await CANDIDATURES.find({ offreId: offreId }).select(
+      "email candidatId status"
+    );
   } catch (e) {
-    // Vérifier si l'erreur provient du fait que l'utilisateur est introuvable
     if (e.kind == "ObjectId" && e.path == "offreId") {
       return next(new HttpError("L'offre est introuvable.", 404));
     }
@@ -86,17 +86,17 @@ const getAllCandidaturesOffre = async (req, res, next) => {
     candidatures: candidaturesOffre.map((o) => o.toObject({ getters: true })),
   });
 };
-
 // --- GET TOUTES LES CANDIDATURES D'UN CANDIDAT ---
 const getAllCandidaturesCandidat = async (req, res, next) => {
   const candidatId = req.params.candidatId;
-  //CANDIDATURES dun employeur
-  // A CONTINUER
+
   let candidaturesCandidat;
   try {
-    candidaturesCandidat = await CANDIDATURES.find({ candidatId: candidatId });
+    candidaturesCandidat = await CANDIDATURES.find({ candidatId: candidatId }).select(
+      "email offreId status candidatId"
+    );
+    console.log("Candidatures pour le candidat :", candidaturesCandidat);
   } catch (e) {
-    // Vérifier si l'erreur provient du fait que l'utilisateur est introuvable
     if (e.kind == "ObjectId" && e.path == "candidatId") {
       return next(new HttpError("Le candidat est introuvable.", 404));
     }
@@ -104,18 +104,17 @@ const getAllCandidaturesCandidat = async (req, res, next) => {
     console.log(e);
     return next(
       new HttpError(
-        "Échec lors de l'obtention des candidatures de lu candidat.",
+        "Échec lors de l'obtention des candidatures du candidat.",
         500
       )
     );
   }
 
-  if (candidaturesCandidat?.length === 0) {
+  if (candidaturesCandidat.length === 0) {
     return next(
       new HttpError(
         "Ce candidat n'a pas encore de candidatures ou il est introuvable.",
-        404
-      )
+        404)
     );
   }
 
