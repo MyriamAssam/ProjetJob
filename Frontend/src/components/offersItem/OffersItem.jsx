@@ -195,6 +195,7 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
                         <option value="en attente"> En attente </option>
                         <option value="acceptée"> Acceptée </option>
                         <option value="rejetée"> Rejetée </option>
+                        <option value="en communication"> En communication </option>
                       </select>
                     </li>
                   ))
