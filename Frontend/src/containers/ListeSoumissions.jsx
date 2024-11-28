@@ -8,54 +8,26 @@ const ListeSoumission = (props) => {
   const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [soumissions, setSoumissions] = useState([]);
-  const [postule, setPostule] = useState(false);
-  let pos = 0;
+  //const [postule, setPostule] = useState(false);
+  //let pos = 0;
 
   useEffect(() => {
-    if (auth.user == props.candidatId) {
-      async function listeSoumissions() {
-        try {
-          const resSoumissions = await sendRequest(
-            process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}/`,
-            "GET",
-            null,
-            { "Content-Type": "application/json" }
-          );
-          setSoumissions(resSoumissions.soumissions);
-          console.log(soumissions);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      listeSoumissions();
-    } else {
-      async function listeSoumissionsEmp() {
-        try {
-          const resSoumissions = await sendRequest(
-            process.env.REACT_APP_BACKEND_URL +
-              `candidatures/liste/${auth.user}/`,
-            "GET",
-            null,
-            {
-              "Content-Type": "application/json",
-            }
-          );
-          setSoumissions(resSoumissions.soumissions);
-          console.log(soumissions);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      listeSoumissionsEmp();
-
-      //boucle while comme dans OffersItem
-      while (postule == false && pos < soumissions.length) {
-        if (soumissions[pos].offreId == props.id) {
-          setPostule(true);
-        }
-        pos++;
+    async function listeSoumissions() {
+      try {
+        const resSoumissions = await sendRequest(
+          process.env.REACT_APP_BACKEND_URL +
+            `candidatures/liste/${auth.user}/`,
+          "GET",
+          null,
+          { "Content-Type": "application/json" }
+        );
+        setSoumissions(resSoumissions.soumissions);
+        console.log(soumissions);
+      } catch (error) {
+        console.log(error);
       }
     }
+    listeSoumissions();
   });
 
   async function addSoumissionSubmitHandler(event) {
