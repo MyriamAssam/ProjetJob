@@ -179,22 +179,7 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
 
               <h2>Liste de candidatures : </h2>
 
-              <ul>
-
-                {candidatures.length > 0 ? candidatures.map((candidature) => (
-                  <li key={candidature.id}>{candidature.email}</li>
-                )) : null}
-              </ul>
-              <br /><br />
-              <div className="controles-rows">
-                <div className="controles no-margin">
-                  <label>Publier cette offre :</label>
-                  <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee} />
-                </div>
-              </div>
-              {
-                publiee && (
-                  <ul className="candidatures-list" >
+              <ul className="candidatures-list" >
                     {
                       candidatures.length > 0 ? (
                         candidatures.map((candidature) => (
@@ -217,7 +202,33 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
                       )
                     }
                   </ul>
-                )}
+              <br /><br />
+              <div className="controles-rows">
+                <div className="controles no-margin">
+                  <label>Publier cette offre :</label>
+                  <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee} />
+                </div>
+              </div>
+              <br/>
+              <div>
+              <NavLink
+                  key={"/add-offer"}
+                  to= "/add-offer"
+                  state= {{
+                    titre: props.titre,
+                    nomEmployeur: props.nomEmployeur,
+                    email: props.email,
+                    salaire: props.salaire,
+                    details: props.details,
+                    published: props.published
+                  }}
+              >
+                Dupliquer cette offre 
+              </NavLink>
+                      </div>
+ 
+                
+                
             </form>
           </Popup>
         </div>
