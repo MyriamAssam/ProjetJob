@@ -78,6 +78,7 @@ const OffersItem = ({ onChange = () => {}, ...props }) => {
     const newCandidature = {
       email: props.emailCandidat,
       offreId: props.id,
+      titre: props.titre,
       candidatId: auth.user,
     };
 

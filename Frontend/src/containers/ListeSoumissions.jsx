@@ -21,14 +21,14 @@ const ListeSoumission = (props) => {
           null,
           { "Content-Type": "application/json" }
         );
-        setSoumissions(resSoumissions.soumissions);
+        setSoumissions(resSoumissions.candidatures);
         console.log(soumissions);
       } catch (error) {
         console.log(error);
       }
     }
     listeSoumissions();
-  });
+  }, []);
 
   async function addSoumissionSubmitHandler(event) {
     console.log(props.emailEmployeur);
@@ -67,10 +67,9 @@ const ListeSoumission = (props) => {
         <ul>
           {soumissions.length > 0 ? (
             soumissions.map((soumission) => (
-              <>
-                <li key={soumission.id}>{soumission.titreOffre}</li>
-                <li key={soumission.id}>{soumission.email}</li>
-              </>
+              <li key={soumission.id}>
+                <span>{soumission.titre}</span>
+              </li>
             ))
           ) : (
             <li>Aucune postulation faite.</li>
