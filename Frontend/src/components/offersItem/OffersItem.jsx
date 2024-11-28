@@ -5,7 +5,7 @@ import Popup from "../popup/Popup";
 import { useHttpClient } from "../../hooks/http-hook";
 import { AuthContext } from "../context/AuthContext";
 
-const OffersItem = ({ onChange = () => { }, ...props }) => {
+const OffersItem = ({ onChange = () => {}, ...props }) => {
   const [btnPopup, setBtnPopup] = useState(false);
   const [btnPopup2, setBtnPopup2] = useState(false);
   const [candidatures, setCandidatures] = useState([]);
@@ -43,7 +43,7 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
         try {
           const resCandidatures = await sendRequest(
             process.env.REACT_APP_BACKEND_URL +
-            `candidatures/liste/${auth.user}/`,
+              `candidatures/liste/${auth.user}/`,
             "GET",
             null,
             {
@@ -57,7 +57,7 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
         }
       }
       listeCandidaturesCandidat();
-      // parcours la liste de candidatures jusqu'à temps qu'on trouve une candidature du candidat pour 
+      // parcours la liste de candidatures jusqu'à temps qu'on trouve une candidature du candidat pour
       // l'offre qu'on a cliqué dessus (setPostule(true) pour indiquer que le candidat a deja appliqué pour cette offre, empêchant de postuler une autre fois).
       // Si on ne trouve pas de candidatures du candidat dans pour cette offre, postule est à false, indiquant que le candidat peut postuler.
       while (postule == false && pos < candidatures.length) {
@@ -129,11 +129,9 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
 
   // S'assure que le useState publiee est bien changé avant de commencer de changer la publication dans la BD
   useEffect(() => {
-
     onChange(publiee);
 
     async function publication() {
-
       const updatedOffre = {
         published: publiee,
       };
@@ -153,14 +151,16 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
       console.log(JSON.stringify(updatedOffre));
     }
     publication();
-
   }, [publiee]);
 
   return (
     <div>
       <li className="offer-item">
         <div className="offer-item__info">
-          <span className="offer-title" onClick={() => btnPopup ? setBtnPopup(false) : setBtnPopup(true)}>
+          <span
+            className="offer-title"
+            onClick={() => (btnPopup ? setBtnPopup(false) : setBtnPopup(true))}
+          >
             <h2>{props.titre}</h2>
           </span>
           <p>Contact: {props.email}</p>
@@ -179,56 +179,58 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
 
               <h2>Liste de candidatures : </h2>
 
-              <ul className="candidatures-list" >
-                    {
-                      candidatures.length > 0 ? (
-                        candidatures.map((candidature) => (
-                          <li key={candidature.id} className="candidature-item" >
-                            <span>{candidature.email} </span>
-                            < select
-                              defaultValue={candidature.status || "en attente"}
-                              onChange={(event) =>
-                                handleStatusChange(event, candidature.id)
-                              }
-                            >
-                              <option value="en attente" > En attente </option>
-                              < option value="acceptée" > Acceptée </option>
-                              < option value="rejetée" > Rejetée </option>
-                            </select>
-                          </li>
-                        ))
-                      ) : (
-                        <li>Aucune candidature trouvée.</li>
-                      )
-                    }
-                  </ul>
-              <br /><br />
+              <ul className="candidatures-list">
+                {candidatures.length > 0 ? (
+                  candidatures.map((candidature) => (
+                    <li key={candidature.id} className="candidature-item">
+                      <span>{candidature.email} </span>
+                      <select
+                        defaultValue={candidature.status || "en attente"}
+                        onChange={(event) =>
+                          handleStatusChange(event, candidature.id)
+                        }
+                      >
+                        <option value="en attente"> En attente </option>
+                        <option value="acceptée"> Acceptée </option>
+                        <option value="rejetée"> Rejetée </option>
+                      </select>
+                    </li>
+                  ))
+                ) : (
+                  <li>Aucune candidature trouvée.</li>
+                )}
+              </ul>
+              <br />
+              <br />
               <div className="controles-rows">
                 <div className="controles no-margin">
                   <label>Publier cette offre :</label>
-                  <input type="checkbox" name="published" onChange={publicationHandler} defaultValue={props.published} checked={publiee} />
+                  <input
+                    type="checkbox"
+                    name="published"
+                    onChange={publicationHandler}
+                    defaultValue={props.published}
+                    checked={publiee}
+                  />
                 </div>
               </div>
-              <br/>
+              <br />
               <div>
-              <NavLink
+                <NavLink
                   key={"/add-offer"}
-                  to= "/add-offer"
-                  state= {{
+                  to="/add-offer"
+                  state={{
                     titre: props.titre,
                     nomEmployeur: props.nomEmployeur,
                     email: props.email,
                     salaire: props.salaire,
                     details: props.details,
-                    published: props.published
+                    published: props.published,
                   }}
-              >
-                Dupliquer cette offre 
-              </NavLink>
-                      </div>
- 
-                
-                
+                >
+                  Dupliquer cette offre
+                </NavLink>
+              </div>
             </form>
           </Popup>
         </div>
@@ -251,13 +253,16 @@ const OffersItem = ({ onChange = () => { }, ...props }) => {
             </form>
           </Popup>
 
-          <Popup trigger={btnPopup2} setTrigger={setBtnPopup2} type="confirmation">
+          <Popup
+            trigger={btnPopup2}
+            setTrigger={setBtnPopup2}
+            type="confirmation"
+          >
             <h5>Candidature envoyée.</h5>
             <p>Bonne chance! Tu en auras besoin...</p>
           </Popup>
         </div>
       )}
-
     </div>
   );
 };

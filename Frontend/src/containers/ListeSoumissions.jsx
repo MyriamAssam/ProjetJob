@@ -8,13 +8,15 @@ const ListeSoumission = (props) => {
   const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [soumissions, setSoumissions] = useState([]);
+  const [postule, setPostule] = useState(false);
+  let pos = 0;
 
   useEffect(() => {
     if (auth.user == props.candidatId) {
       async function listeSoumissions() {
         try {
           const resSoumissions = await sendRequest(
-            process.env.REACT_APP_BACKEND_URL + `soumissions/${props.id}/`,
+            process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}/`,
             "GET",
             null,
             { "Content-Type": "application/json" }
@@ -31,7 +33,7 @@ const ListeSoumission = (props) => {
         try {
           const resSoumissions = await sendRequest(
             process.env.REACT_APP_BACKEND_URL +
-              `soumissions/liste/${auth.user}/`,
+              `candidatures/liste/${auth.user}/`,
             "GET",
             null,
             {
@@ -45,6 +47,14 @@ const ListeSoumission = (props) => {
         }
       }
       listeSoumissionsEmp();
+
+      //boucle while comme dans OffersItem
+      while (postule == false && pos < soumissions.length) {
+        if (soumissions[pos].offreId == props.id) {
+          setPostule(true);
+        }
+        pos++;
+      }
     }
   });
 
@@ -63,7 +73,7 @@ const ListeSoumission = (props) => {
     };
     try {
       await sendRequest(
-        process.env.REACT_APP_BACKEND_URL + "soumissions/",
+        process.env.REACT_APP_BACKEND_URL + "candidatures/",
         "POST",
         JSON.stringify(newSoumission),
         { "Content-Type": "application/json" }
@@ -83,14 +93,16 @@ const ListeSoumission = (props) => {
         <h1>Liste de postulations:</h1>
         <br />
         <ul>
-          {soumissions.length > 0
-            ? soumissions.map((soumission) => (
-                <>
-                  <li key={soumission.id}>{soumission.titreOffre}</li>
-                  <li key={soumission.id}>{soumission.email}</li>
-                </>
-              ))
-            : null}
+          {soumissions.length > 0 ? (
+            soumissions.map((soumission) => (
+              <>
+                <li key={soumission.id}>{soumission.titreOffre}</li>
+                <li key={soumission.id}>{soumission.email}</li>
+              </>
+            ))
+          ) : (
+            <li>Aucune postulation faite.</li>
+          )}
         </ul>
       </form>
     </div>
