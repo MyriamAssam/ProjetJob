@@ -8,8 +8,6 @@ const ListeSoumission = (props) => {
   const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [soumissions, setSoumissions] = useState([]);
-  //const [postule, setPostule] = useState(false);
-  //let pos = 0;
 
   useEffect(() => {
     async function listeSoumissions() {
@@ -56,6 +54,23 @@ const ListeSoumission = (props) => {
     console.log(JSON.stringify(newSoumission));
     event.target.reset();
   }
+
+  async function deleteSoumissionSubmitHandler(event) {
+    event.preventDefault();
+    try {
+      if (props.id != null) {
+        await sendRequest(
+          process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}`,
+          "DELETE",
+          JSON.stringify(props.id),
+          { "Content-Type": "application/json" }
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div>
       <button className="boutonLog" onClick={() => navigate("/offres")}>
@@ -69,6 +84,7 @@ const ListeSoumission = (props) => {
             soumissions.map((soumission) => (
               <li key={soumission.id}>
                 <span>{soumission.titre}</span>
+                <button onClick={deleteSoumissionSubmitHandler}>Retirer</button>
               </li>
             ))
           ) : (
