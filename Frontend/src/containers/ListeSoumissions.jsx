@@ -10,6 +10,7 @@ const ListeSoumission = (props) => {
   const [soumissions, setSoumissions] = useState([]);
   const [recharger, setRecharger] = useState(false);
 
+
   useEffect(() => {
     async function listeSoumissions() {
       try {
@@ -25,12 +26,11 @@ const ListeSoumission = (props) => {
         console.log(resSoumissions.candidatures);
       } catch (error) {
         console.log(error);
+        setSoumissions([]);
       }
     }
     listeSoumissions();
-    console.log(soumissions);
-    setRecharger(!recharger);
-  }, recharger);
+  }, [recharger]);
 
   async function addSoumissionSubmitHandler(event) {
     console.log(props.emailEmployeur);
@@ -62,8 +62,7 @@ const ListeSoumission = (props) => {
 
   async function deleteSoumissionSubmitHandler(event, candidatureId, titre) {
     event.preventDefault();
-    console.log(candidatureId);
-    console.log(titre);
+    setRecharger(recharger + 1);
     try {
       await sendRequest(
         process.env.REACT_APP_BACKEND_URL + `candidatures/${candidatureId}`,
@@ -75,8 +74,9 @@ const ListeSoumission = (props) => {
       console.error(error);
     }
     setRecharger(!recharger);
-    console.log(recharger);
-    //navigate(`/listeSoumission?refresh=${recharger}`);
+
+    
+    navigate(`/listeSoumission?refresh=${recharger}`);
 
   }
 
@@ -92,7 +92,8 @@ const ListeSoumission = (props) => {
           {soumissions.length > 0 ? (
             soumissions.map((soumission) => (
               <li key={soumission.id}>
-                <span>{soumission.titre}</span>
+                <span>{soumission.titre} -- Status: {soumission.status}&nbsp; &nbsp;</span>
+
                 <button
                   onClick={(e) =>
                     deleteSoumissionSubmitHandler(e, soumission.id, soumission.titre)
