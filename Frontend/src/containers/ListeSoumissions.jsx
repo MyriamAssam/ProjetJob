@@ -8,6 +8,7 @@ const ListeSoumission = (props) => {
   const navigate = useNavigate();
   const { sendRequest } = useHttpClient();
   const [soumissions, setSoumissions] = useState([]);
+  const [recharger, setRecharger] = useState(false);
 
   useEffect(() => {
     async function listeSoumissions() {
@@ -21,12 +22,15 @@ const ListeSoumission = (props) => {
         );
         setSoumissions(resSoumissions.candidatures);
         console.log(soumissions);
+        console.log(resSoumissions.candidatures);
       } catch (error) {
         console.log(error);
       }
     }
     listeSoumissions();
-  }, []);
+    console.log(soumissions);
+    setRecharger(!recharger);
+  }, recharger);
 
   async function addSoumissionSubmitHandler(event) {
     console.log(props.emailEmployeur);
@@ -53,11 +57,13 @@ const ListeSoumission = (props) => {
     }
     console.log(JSON.stringify(newSoumission));
     event.target.reset();
+
   }
 
-  async function deleteSoumissionSubmitHandler(event, candidatureId) {
+  async function deleteSoumissionSubmitHandler(event, candidatureId, titre) {
     event.preventDefault();
     console.log(candidatureId);
+    console.log(titre);
     try {
       await sendRequest(
         process.env.REACT_APP_BACKEND_URL + `candidatures/${candidatureId}`,
@@ -68,6 +74,10 @@ const ListeSoumission = (props) => {
     } catch (error) {
       console.error(error);
     }
+    setRecharger(!recharger);
+    console.log(recharger);
+    //navigate(`/listeSoumission?refresh=${recharger}`);
+
   }
 
   return (
@@ -85,7 +95,7 @@ const ListeSoumission = (props) => {
                 <span>{soumission.titre}</span>
                 <button
                   onClick={(e) =>
-                    deleteSoumissionSubmitHandler(e, soumission.id)
+                    deleteSoumissionSubmitHandler(e, soumission.id, soumission.titre)
                   }
                 >
                   Retirer

@@ -93,7 +93,7 @@ const getAllCandidaturesCandidat = async (req, res, next) => {
   let candidaturesCandidat;
   try {
     candidaturesCandidat = await CANDIDATURES.find({ candidatId: candidatId }).select(
-      "email offreId status candidatId"
+      "email offreId titre status candidatId"
     );
     console.log("Candidatures pour le candidat :", candidaturesCandidat);
   } catch (e) {
