@@ -55,17 +55,16 @@ const ListeSoumission = (props) => {
     event.target.reset();
   }
 
-  async function deleteSoumissionSubmitHandler(event) {
+  async function deleteSoumissionSubmitHandler(event, candidatureId) {
     event.preventDefault();
+    console.log(candidatureId);
     try {
-      if (props.id != null) {
-        await sendRequest(
-          process.env.REACT_APP_BACKEND_URL + `candidatures/${props.id}`,
-          "DELETE",
-          JSON.stringify(props.id),
-          { "Content-Type": "application/json" }
-        );
-      }
+      await sendRequest(
+        process.env.REACT_APP_BACKEND_URL + `candidatures/${candidatureId}`,
+        "DELETE",
+        JSON.stringify(props.id),
+        { "Content-Type": "application/json" }
+      );
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +83,13 @@ const ListeSoumission = (props) => {
             soumissions.map((soumission) => (
               <li key={soumission.id}>
                 <span>{soumission.titre}</span>
-                <button onClick={deleteSoumissionSubmitHandler}>Retirer</button>
+                <button
+                  onClick={(e) =>
+                    deleteSoumissionSubmitHandler(e, soumission.id)
+                  }
+                >
+                  Retirer
+                </button>
               </li>
             ))
           ) : (
