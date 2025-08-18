@@ -61,7 +61,7 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 
 ## 📌 Compétences techniques
 
-- **Langages** : JavaScript, Java, PHP, Python, C++
+- **Langages** : JavaScript, Java, PHP, Python, C++, C#
 - **Technologies** : React, Node.js, MongoDB, MySQL, Android Studio
 - **Outils** : Git, GitHub, Postman, VSCode
 
