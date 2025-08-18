@@ -1,5 +1,7 @@
 # Portfolio – Myriam Assam
 
+Bienvenue sur mon portfolio de projets réalisés lors de mon stage chez Bâti Québec et quelques projets d'école (cégep).
+
 ---
 
 ## 👩‍💻 À propos
@@ -49,6 +51,7 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/bati.git)
 
 ---
+
 ### 🔹 Site web – JobBang (Projet final a l'école)
 - Plateforme : React + MongoDB + Postman API
 - Fonction : Site de recrutement de stages
