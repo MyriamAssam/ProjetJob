@@ -62,6 +62,16 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 
 ---
 
+### 🔹 Jeu (application) – Combat
+- Plateforme : Eclipse + Java
+- Fonction : jeu de combat de char, chargé de la page de gestion de changment de couleurs du char et de la balle
+- Travail d'équipe, mais chacun avait une page à faire et nous avons pas fait un jeu au complet
+- Voir le read me a l'intérieur du fichier pour plus de détails
+
+🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/ProjetJob.git)
+
+---
+
 ## 📌 Compétences techniques
 
 - **Langages** : JavaScript, Java, PHP, Python, C++, C#
