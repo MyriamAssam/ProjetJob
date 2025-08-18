@@ -55,7 +55,7 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 - On peut créer des postes, voir les étudiants qui ont postulés et leur informations, changer le status de la demande
 - Fait en équipe de 3 
 
-🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/bati.git)
+🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/ProjetJob.git)
 
 ---
 
