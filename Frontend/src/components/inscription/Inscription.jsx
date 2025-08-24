@@ -14,31 +14,44 @@ export default function Inscription(props) {
   const auth = useContext(AuthContext);
   const [error, SetError] = useState(null);
 
-  async function authSubmitHandler(event) {
-    event.preventDefault();
-    const inputs = new FormData(event.target);
-    const data = Object.fromEntries(inputs.entries());
-    console.log("data ", data);
-    event.target.reset();
+  async function authSubmitHandler(e) {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+    const data = Object.fromEntries(form.entries()); // { email, mdp, type }
+    console.log("data", data);
+
+    // Pick the API base from env (prod or dev) and make sure there's exactly one slash
+    const API_BASE = (
+      import.meta?.env?.VITE_API_URL ||
+      process.env.REACT_APP_BACKEND_URL ||
+      ""
+    ).replace(/\/+$/, "");
+
     try {
-      const API = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/+$/, "");
-      await fetch(`${API}/users/register`, {
+      const res = await fetch(`${API_BASE}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      const responseData = await response.json();
-      console.log("2", responseData);
-      auth.login(responseData.user.id, responseData.token);
-      // ca va afficher toutes les offres meme si t'es employeur
-      if (responseData.user.id !== undefined) {
-        navigate("/offres");
+      if (!res.ok) {
+        // helpful error if backend returns 4xx/5xx
+        const text = await res.text();
+        throw new Error(`HTTP ${res.status} – ${text}`);
       }
-      console.log("data1 ", responseData);
+
+      const json = await res.json();
+      console.log("register response:", json);
+
+      auth.login(json.user.id, json.token);
+      if (json.user?.id) navigate("/offres");
+
+      e.target.reset();
+      SetError(null);
     } catch (err) {
-      SetError(err.message || "une erreur");
-      console.log(err);
+      console.error(err);
+      SetError(err.message || "Une erreur est survenue");
     }
   }
 
