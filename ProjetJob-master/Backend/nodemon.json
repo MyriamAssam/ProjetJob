@@ -1,6 +1,0 @@
-{
-  "env": {
-    "PORT": 5000,
-    "MONGODB_URI": "mongodb+srv://mimimontmo2:HIEKagY27nsummm7@rdvdb.ycbc4.mongodb.net/?retryWrites=true&w=majority&appName=RdvDb"
-  }
-}
