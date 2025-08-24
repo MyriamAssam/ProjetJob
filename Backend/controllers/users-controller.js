@@ -1,5 +1,5 @@
 // --- IMPORTS ---
-const USERS = require("../models/user");
+const REGISTER = require("../models/register");
 const jwt = require("jsonwebtoken");
 const HttpError = require("../util/http-error");
 const mongoose = require("mongoose");
@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 const getAllUsers = async (req, res, next) => {
   let users;
   try {
-    users = await USERS.find();
+    users = await REGISTER.find();
   } catch (e) {
     return next(
       new HttpError(
@@ -27,7 +27,7 @@ const getUserById = async (req, res, next) => {
 
   let user;
   try {
-    user = await USERS.findById(userId);
+    user = await REGISTER.findById(userId);
   } catch (e) {
     console.log(e);
     return next(
@@ -52,13 +52,13 @@ const getUserByUsernameOrId = async (req, res, next) => {
   let users = [];
   try {
     if (mongoose.isValidObjectId(username)) {
-      let user = await USERS.findById(username, "-mdp");
+      let user = await REGISTER.findById(username, "-mdp");
       if (user) {
         users.push(user);
       }
     }
 
-    let userName = await USERS.find({ username: username }, "-mdp");
+    let userName = await REGISTER.find({ username: username }, "-mdp");
     if (userName) {
       userName.map((u) => {
         users.push(u);
@@ -87,7 +87,7 @@ const registerUser = async (req, res, next) => {
   let existingUser;
   try {
     // Vérifier si l'email est déjà utilisé
-    existingUser = await USERS.findOne({ email: email });
+    existingUser = await REGISTER.findOne({ email: email });
   } catch (e) {
     console.log(e);
     return next(
@@ -106,7 +106,7 @@ const registerUser = async (req, res, next) => {
       )
     );
   }
-  
+
   // Si le email est valide
   const createdUser = new USERS({
     username,
@@ -130,11 +130,9 @@ const registerUser = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign(
-      { email: email },
-        "tpsyntheseMelia&Ivan-cours4a5",
-      { expiresIn: "24h" }
-    );
+    token = jwt.sign({ email: email }, "tpsyntheseMelia&Ivan-cours4a5", {
+      expiresIn: "24h",
+    });
   } catch (e) {
     console.log(e);
     return next(
@@ -145,8 +143,9 @@ const registerUser = async (req, res, next) => {
     );
   }
 
-
-  res.status(201).json({ user: createdUser.toObject({ getters: true }), token: token });
+  res
+    .status(201)
+    .json({ user: createdUser.toObject({ getters: true }), token: token });
 };
 
 // --- CONNEXION ---
@@ -156,7 +155,7 @@ const login = async (req, res, next) => {
 
   let existingUser;
   try {
-    existingUser = await USERS.findOne({ email: email });
+    existingUser = await REGISTER.findOne({ email: email });
   } catch (e) {
     console.log(e);
     return next(new HttpError("Échec lors de la validation du courriel.", 500));
@@ -203,7 +202,7 @@ const updateUser = async (req, res, next) => {
   const updates = req.body;
 
   try {
-    const userMaj = await USERS.findByIdAndUpdate(userId, updates, {
+    const userMaj = await REGISTER.findByIdAndUpdate(userId, updates, {
       new: true,
     });
 
