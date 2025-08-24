@@ -21,14 +21,12 @@ export default function Inscription(props) {
     console.log("data ", data);
     event.target.reset();
     try {
-      const response = await fetch(
-        process.env.REACT_APP_BACKEND_URL + "users/register/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        }
-      );
+      const API = (process.env.REACT_APP_BACKEND_URL || "").replace(/\/+$/, "");
+      await fetch(`${API}/users/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
       const responseData = await response.json();
       console.log("2", responseData);
