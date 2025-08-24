@@ -29,7 +29,7 @@ export default function Inscription(props) {
     ).replace(/\/+$/, "");
 
     try {
-      const res = await fetch(`${API_BASE}/users/register`, {
+      const res = await fetch(`${API_BASE}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
