@@ -108,7 +108,7 @@ const registerUser = async (req, res, next) => {
   }
 
   // Si le email est valide
-  const createdUser = new USERS({
+  const createdUser = new REGISTER({
     username,
     email,
     mdp,
