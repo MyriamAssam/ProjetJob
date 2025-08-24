@@ -1,0 +1,122 @@
+form {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: rgb(15, 180, 158);
+  border-radius: 8px;
+  box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.5);
+}
+
+.controles,
+fieldset {
+  margin-bottom: 1rem;
+}
+
+.controles.no-margin {
+  margin-bottom: 0;
+  padding-right: 1rem;
+}
+
+.controles label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.controles input {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #758a8a;
+  background-color: white;
+  color: #142020;
+}
+
+.controles select {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #758a8a;
+  background-color: #869999;
+  color: #142020;
+}
+
+.controles:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+}
+
+.controles:has(input[type="checkbox"]) label {
+  margin: 0;
+}
+
+.controles input[type="checkbox"] {
+  display: inline-block;
+  width: auto;
+  max-width: none;
+  margin-right: 0.5rem;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  color: #d9e2f1;
+}
+
+.controles-error {
+  color: #ffca99;
+  font-size: 0.8rem;
+  height: 2rem;
+  padding: 0.5rem 0;
+}
+
+.controles-error p {
+  margin: 0;
+}
+
+.controles-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.boutonLog {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #0772d6;
+  color: #d9e2f1;
+  cursor: pointer;
+}
+
+.boutonLog:hover,
+.boutonLog:focus {
+  background-color: rgb(68, 255, 252);
+}
+
+.boutonLog-flat {
+  background-color: #147b73;
+  color: #d9e2f1;
+}
+
+.boutonLog-flat:hover,
+.boutonLog-flat:focus {
+  background-color: #9cbaba;
+  color: #d9e2f1;
+}
