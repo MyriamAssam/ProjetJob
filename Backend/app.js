@@ -8,6 +8,7 @@ const errorHandler = require("./handler/error-handler");
 const app = express();
 app.use(express.json());
 
+// CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -18,31 +19,35 @@ app.use((req, res, next) => {
   next();
 });
 
+// Routes
 app.use("/offres", offresRoutes);
 app.use("/users", usersRoutes);
 app.use("/candidatures", candidaturesRoutes);
 
+// 404
 app.use((req, res, next) => {
   const error = new Error("Route non trouvée");
   error.code = 404;
   next(error);
 });
+
+// Global error handler
 app.use(errorHandler);
 
+// ---- DB + serveur ----
 const PORT = process.env.PORT || 3000;
-//const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://2265470:i8Fm7j4giBKmbfgm@jobbang-bd.ybvsp.mongodb.net/?retryWrites=true&w=majority&appName=jobbang-bd"
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/RdvDb";
 
-const MONGODB_URI = "mongodb://localhost:27017/job";
-
+console.log("Mongo source:", process.env.MONGODB_URI ? "ENV" : "localhost");
 
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    app.listen(PORT);
-    console.log(`Connexion à la BD [${MONGODB_URI}] sur le port ${PORT} réussie.`);
+    console.log("✅ Connecté à MongoDB");
+    app.listen(PORT, () => console.log(`✅ API sur le port ${PORT}`));
   })
-  .catch((e) => {
-    console.log(`Connexion à la BD [${MONGODB_URI} sur le port ${PORT} échouée.]`);
-    console.log(e);
+  .catch((err) => {
+    console.error("❌ Erreur connexion MongoDB :", err.message);
+    process.exit(1);
   });
-
