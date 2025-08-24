@@ -1,6 +1,6 @@
 {
-    "env": {
-        "PORT": 5000,
-        "MONGODB_URI": "mongodb+srv://2265470:i8Fm7j4giBKmbfgm@jobbang-bd.ybvsp.mongodb.net/?retryWrites=true&w=majority&appName=jobbang-bd"
-    }
+  "env": {
+    "PORT": 5000,
+    "MONGODB_URI": "mongodb+srv://mimimontmo2:NSbHw9LrcVVE0Cur@rdvdb.ycbc4.mongodb.net/?retryWrites=true&w=majority&appName=RdvDb"
+  }
 }
