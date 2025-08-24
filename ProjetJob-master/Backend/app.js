@@ -32,7 +32,8 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 
 // Use Atlas in production via env var
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/RdvD";
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/RdvDb";
 
 mongoose
   .connect(MONGODB_URI)
