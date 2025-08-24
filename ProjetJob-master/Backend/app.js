@@ -45,5 +45,5 @@ mongoose
   })
   .catch((e) => {
     console.error("DB connection failed:", e);
-    process.exit(1); // fail fast so Render logs it
+    process.exit(1);
   });
