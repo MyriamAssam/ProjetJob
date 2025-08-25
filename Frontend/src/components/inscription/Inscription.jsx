@@ -56,7 +56,6 @@ export default function Inscription() {
   return (
     <form onSubmit={authSubmitHandler}>
       <h2>Inscription à JoBang!</h2>
-
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Email :</label>
@@ -69,40 +68,41 @@ export default function Inscription() {
           />
         </div>
       </div>
-
       <div className="controles-rows">
+        {" "}
         <div className="controles no-margin">
-          <label>Mot de passe :</label>
+          {" "}
+          <label>Mot de passe :</label>{" "}
           <input
             type="password"
             name="mdp"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-          />
-        </div>
-      </div>
-
+          />{" "}
+        </div>{" "}
+      </div>{" "}
       <div className="controles-rows">
+        {" "}
         <div className="controles no-margin">
-          <label>Type :</label>
+          {" "}
+          <label>Type :</label>{" "}
           <input
-            type="text" // ou remplace par un <select>
+            type="type"
             name="type"
-            value={type} // <-- lier au state
+            value={props.type}
             onChange={(e) => setType(e.target.value)}
             required
-          />
-        </div>
-      </div>
-
+          />{" "}
+        </div>{" "}
+      </div>{" "}
       <p className="form-actions">
+        {" "}
         <button className="boutonLog" type="submit">
-          Inscription
-        </button>
-      </p>
-
-      {error && <p className="error">{error}</p>}
+          {" "}
+          Inscription{" "}
+        </button>{" "}
+      </p>{" "}
     </form>
   );
 }
