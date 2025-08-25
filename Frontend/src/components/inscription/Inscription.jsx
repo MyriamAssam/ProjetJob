@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { AuthContext } from "../context/AuthContext";
 
-export default function Inscription(props) {
+export default function Inscription() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("");
@@ -21,7 +21,6 @@ export default function Inscription(props) {
     const data = Object.fromEntries(form.entries()); // { email, mdp, type }
     console.log("data", data);
 
-    // Pick the API base from env (prod or dev) and make sure there's exactly one slash
     const API_BASE = (
       import.meta?.env?.VITE_API_URL ||
       process.env.REACT_APP_BACKEND_URL ||
@@ -29,14 +28,13 @@ export default function Inscription(props) {
     ).replace(/\/+$/, "");
 
     try {
-      const res = await fetch(`${API_BASE}/register`, {
+      const res = await fetch(`${API_BASE}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
       if (!res.ok) {
-        // helpful error if backend returns 4xx/5xx
         const text = await res.text();
         throw new Error(`HTTP ${res.status} – ${text}`);
       }
@@ -58,6 +56,7 @@ export default function Inscription(props) {
   return (
     <form onSubmit={authSubmitHandler}>
       <h2>Inscription à JoBang!</h2>
+
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Email :</label>
@@ -83,13 +82,14 @@ export default function Inscription(props) {
           />
         </div>
       </div>
+
       <div className="controles-rows">
         <div className="controles no-margin">
           <label>Type :</label>
           <input
-            type="type"
+            type="text" // ou remplace par un <select>
             name="type"
-            value={props.type}
+            value={type} // <-- lier au state
             onChange={(e) => setType(e.target.value)}
             required
           />
@@ -101,6 +101,8 @@ export default function Inscription(props) {
           Inscription
         </button>
       </p>
+
+      {error && <p className="error">{error}</p>}
     </form>
   );
 }
