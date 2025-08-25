@@ -30,6 +30,7 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 ### 🔹 Site web – Bâti Québec Soumissions
 - Plateforme : React + MongoDB + Postman API
 - Fonction : Création et gestion de soumissions
+- Cliquer sur le lien Render pour voir le resultat et tester
 - Fonctionnalité : Gestion des rôles, formulaire dynamique, i18n (traduction anglais)
 
 🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/app-soumission)
@@ -56,6 +57,8 @@ Je cherche des opportunités dans le développement ou le soutien technique, id�
 - Plateforme : React + MongoDB + Postman API
 - Fonction : Site de recrutement de stages
 - On peut créer des postes, voir les étudiants qui ont postulés et leur informations, changer le status de la demande
+- CSS pas complet, mais toutes les composantes demandées durant les sprints sont là
+- Cliquer sur le lien Render pour voir le resultat et tester
 - Fait en équipe de 3 
 
 🔗 [Lien vers le dépôt](https://github.com/MyriamAssam/ProjetJob.git)
